@@ -3,6 +3,10 @@
 .wrapper {
     margin: 0 auto;
 
+    @media (max-width: variables.$screen-mobile) {
+        padding: 0 1rem;
+    }
+
     @media (min-width: variables.$screen-mobile) {
         padding: 0 1rem;
     }
