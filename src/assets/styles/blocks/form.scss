@@ -1,0 +1,17 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.form__title {
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+.form__input {
+   
+   width: clamp(240px, 50vw, 560px);
+}

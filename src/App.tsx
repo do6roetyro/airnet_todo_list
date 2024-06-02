@@ -5,6 +5,8 @@ import Header from "./components/Header/Header";
 import "./assets/styles/index.scss";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"))
+const RegisterPage = lazy(() => import("./pages/RegisterPage"))
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -22,6 +24,8 @@ const App: React.FC = () => {
           <Suspense fallback={<div className="suspense-load"></div>}>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </Suspense>
         </main>
