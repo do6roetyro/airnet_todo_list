@@ -5,10 +5,10 @@ interface HomeLinkProps {
   title: string;
 }
 
-const HomeLink: React.FC<HomeLinkProps> = (props) => {
+const HomeLink: React.FC<HomeLinkProps> = ({title}) => {
   return (
     <Link to="/" className="main-header__link link">
-      {props.title}
+      {title}
     </Link>
   );
 };

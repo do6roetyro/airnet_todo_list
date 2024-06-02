@@ -6,11 +6,11 @@ interface NavLinkProps {
     link: string
 }
 
-const NavLink: React.FC<NavLinkProps> = (props) => {
+const NavLink: React.FC<NavLinkProps> = ({title, link}) => {
   return (
     <li className="main-nav__item">
-      <Link to={`/${props.link}`} className="main-nav__link link">
-        {props.title}
+      <Link to={`/${link}`} className="main-nav__link link">
+        {title}
       </Link>
     </li>
   );

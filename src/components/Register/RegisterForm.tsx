@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
-import RegistrationSuccessModal from "./RegisterSuccess";
+import ModalSuccess from "../Modal/ModalSuccess";
 
 const validationSchema = yup.object({
   firstName: yup.string().required("Обязательное поле"),
@@ -110,9 +110,11 @@ const RegisterForm: React.FC = () => {
           </Form>
         )}
       </Formik>
-      <RegistrationSuccessModal
+      <ModalSuccess
         isOpen={isRegistrationSuccessModalOpen}
         onClose={() => setIsRegistrationSuccessModalOpen(false)}
+        title="Успешная регистрация!"
+        info="Поздравляем! Вы можете начать пользоваться приложением!"
       />
     </>
   );
