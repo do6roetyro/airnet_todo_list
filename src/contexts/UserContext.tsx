@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { fetchUserData } from "../services/dataService";
+import fetchUserData from "../services/dataService";
 
 interface User {
   id: number;
