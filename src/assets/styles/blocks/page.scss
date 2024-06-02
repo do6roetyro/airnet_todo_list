@@ -1,0 +1,33 @@
+@use "../global/variables.scss";
+
+.page {
+    height: 100dvh;
+    background-color: #f2f2f2;
+}
+
+.page__body {
+    font-family: variables.$font-ibm;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0;
+    text-wrap: balance;
+    min-height: 100%;
+}
+
+.page__container {
+    min-width: variables.$screen-mobile;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.page__wrapper {
+    max-width: variables.$screen-desktop;
+    width: 100%;
+    margin: 0 auto;
+}
