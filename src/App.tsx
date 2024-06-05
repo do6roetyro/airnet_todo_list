@@ -7,6 +7,7 @@ import "./assets/styles/index.scss";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"))
 const RegisterPage = lazy(() => import("./pages/RegisterPage"))
+const CalendarPage = lazy(() => import("./pages/CalendarPage"))
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const App: React.FC = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
             </Routes>
           </Suspense>
         </main>
