@@ -7,17 +7,19 @@ interface DayProps {
 }
 
 const Day: React.FC<DayProps> = ({ date, hasTasks, onClick }) => {
+  if (date === 0) {
+    return <div className="calendar-table__day empty"></div>;
+  }
   return (
-    <div
+    <button
       className={`calendar-table__day ${
         hasTasks ? "calendar-table__day--has-tasks" : ""
       }`}
       onClick={onClick}
     >
-      {" "}
       {date}
       {hasTasks && <span>!</span>}
-    </div>
+    </button>
   );
 };
 

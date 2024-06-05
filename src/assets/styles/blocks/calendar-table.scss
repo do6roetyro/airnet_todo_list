@@ -1,0 +1,46 @@
+@use "../global/variables.scss";
+
+.calendar-table__header {
+    display: contents; /* Используем contents, чтобы следовать сетке */
+  }
+  
+  .calendar-table__header-day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .calendar-table__week {
+    display: contents; /* Каждая неделя действует как строка в сетке */
+  }
+
+.calendar-table__day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+  }
+
+  &--has-tasks {
+    background-color: #ffeb3b;
+  }
+}
+
+.calendar-table__day.empty {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+  }
+

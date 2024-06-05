@@ -22,11 +22,17 @@ const Calendar: React.FC<CalendarProps> = ({
     const daysInMonth = getDaysInMonth(year, month);
     const weeks: { date: number; hasTasks: boolean }[][] = [];
     let week: { date: number; hasTasks: boolean }[] = [];
+    const startDay = (new Date(year, month, 1).getDay() + 6) % 7; // Смещение начала недели
+
+    for (let i = 0; i < startDay; i++) {
+      week.push({ date: 0, hasTasks: false });
+    }
+
     for (let i = 1; i <= daysInMonth; i++) {
       const date = new Date(year, month, i);
       const hasTasks = tasks[year]?.[month + 1]?.[i] !== undefined;
       week.push({ date: i, hasTasks });
-      if (date.getDay() === 0 || i === daysInMonth) {
+      if (week.length === 7 || i === daysInMonth) {
         weeks.push(week);
         week = [];
       }
@@ -34,10 +40,21 @@ const Calendar: React.FC<CalendarProps> = ({
     return weeks;
   };
 
+  const daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+
   return (
     <div className="calendar__table calendar-table">
+      <div className="calendar-table__header">
+        {daysOfWeek.map((day, index) => (
+          <div key={index} className="calendar-table__header-day">
+            {day}
+          </div>
+        ))}
+      </div>
       {generateCalendar().map((week, index) => (
-        <Week key={index} days={week} onDayClick={onDayClick} />
+        <div className="calendar-table__week" key={index}>
+          <Week days={week} onDayClick={onDayClick} />
+        </div>
       ))}
     </div>
   );

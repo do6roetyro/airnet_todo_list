@@ -14,6 +14,18 @@
     border: 2px solid variables.$color-blue;
     border-radius: 100%;
 
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            color: variables.$color-white;
+            background-color: variables.$color-blue;
+        }
+
+        &:active {
+            opacity: 0.5;
+                    }
+    }
+
+
 }
 
 .current-year__date {
