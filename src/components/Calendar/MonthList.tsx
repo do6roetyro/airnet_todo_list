@@ -1,19 +1,5 @@
 import React from "react";
-
-const months = [
-  "янв",
-  "фев",
-  "март",
-  "апр",
-  "май",
-  "июнь",
-  "июль",
-  "авг",
-  "сент",
-  "окт",
-  "нояб",
-  "дек",
-];
+import { MONTHS } from "../../utils/variables";
 
 interface MonthListProps {
     currentMonth: number;
@@ -28,7 +14,7 @@ interface MonthListProps {
   }) => {
     return (
       <div className="calendar__months months">
-        {months.map((month, index) => (
+        {MONTHS.map((month, index) => (
           <label key={index} className="months__label">
             <input
               type="radio"

@@ -18,7 +18,6 @@ const Day: React.FC<DayProps> = ({ date, hasTasks, onClick }) => {
       onClick={onClick}
     >
       {date}
-      {/* {hasTasks && <span>!</span>} */}
     </button>
   );
 };
