@@ -86,7 +86,7 @@ const CalendarPage: React.FC = () => {
   const [month, setMonth] = useState(new Date().getMonth());
 
   if (!user) {
-    return <div>Пожалуйста, войдите в систему, чтобы увидеть задачи.</div>;
+    return <p className="main-container__description">Пожалуйста, зарегистрируйтесь или войдите в свой профиль, чтобы увидеть задачи.</p>;
   }
 
   const handlePrevYear = () => setYear(year - 1);

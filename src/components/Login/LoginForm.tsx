@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import ModalSuccess from "../Modal/ModalSuccess";
 import { useUser } from "../../contexts/UserContext";
+import { useNavigate } from "react-router";
 import data from '../../data.json';
 
 const validationSchema = yup.object({
@@ -16,7 +17,13 @@ const validationSchema = yup.object({
 
 const LoginForm: React.FC = () => {
   const [isLoginSuccessModalOpen, setIsLoginSuccessModalOpen] = useState(false);
-  const {login} = useUser();
+  const { login } = useUser();
+  const navigate = useNavigate();
+
+  const handleCloseModal = () => {
+    setIsLoginSuccessModalOpen(false);
+    navigate('/calendar');
+  };
 
   return (
     <>
@@ -79,7 +86,7 @@ const LoginForm: React.FC = () => {
       </Formik>
       <ModalSuccess
         isOpen={isLoginSuccessModalOpen}
-        onClose={() => setIsLoginSuccessModalOpen(false)}
+        onClose={handleCloseModal}
         title="Успешный вход!"
         info={`Добро пожаловать, ${useUser().user?.firstName}`}
       />
