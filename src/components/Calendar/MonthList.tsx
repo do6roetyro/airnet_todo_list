@@ -12,10 +12,24 @@ const MonthList: React.FC<MonthListProps> = ({
   onSelectMonth,
   tasksByMonth,
 }) => {
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLLabelElement>,
+    index: number
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      onSelectMonth(index);
+    }
+  };
+
   return (
     <div className="calendar__months months">
       {MONTHS.map((month, index) => (
-        <label key={index} className="months__label" tabIndex={0}>
+        <label
+          key={index}
+          className="months__label"
+          tabIndex={0} // Добавляем tabindex для участия в последовательности табуляции
+          onKeyDown={(event) => handleKeyDown(event, index)}
+        >
           <input
             type="radio"
             name="month"
