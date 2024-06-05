@@ -3,20 +3,28 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 
 .calendar__months {
     display: flex;
     gap: 5px;
+    padding-bottom: 3rem;
 }
 
 .calendar__table {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
+    position: relative;
 }
 
 .calendar__loading {
+    position: absolute;
+    top: 4rem;
+    // top: 100%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
     text-align: center;
     padding: 20px;
     font-size: 1.5rem;
