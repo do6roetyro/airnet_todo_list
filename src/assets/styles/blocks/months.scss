@@ -2,10 +2,10 @@
 
 .months {
     display: grid;
-   grid-template-columns: repeat(4, 64px);
+    grid-template-columns: repeat(4, 64px);
     gap: 0.1rem;
 
-    @media(min-width: variables.$screen-tablet) {
+    @media (min-width: variables.$screen-tablet) {
         grid-template-columns: repeat(12, 64px);
     }
 }
@@ -13,32 +13,37 @@
 .months__label {
     position: relative;
     cursor: pointer;
-    
-  }
 
-  .months__radio {
+    &:has(.months__radio:checked) {
+        box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+    }
+
+    &:focus-within {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+    }
+}
+
+.months__radio {
     display: none; /* Скрываем саму радиокнопку */
-  }
+}
 
-  .months__name  {
+.months__name {
     text-align: center;
     display: block;
     padding: 10px;
-    border: 1px solid #000;
     border-radius: 5px;
     transition: background-color 0.3s, font-weight 0.3s;
 
     &--has-tasks {
-        border-color: red;
+        background-color: #ffc0cb;
     }
 
     &--active {
-        font-weight: bold;
-  background-color: #ffc0cb;
+        background-color: #f0f0f0;
     }
-   
 }
 
 .months__label:hover .months__name {
-    background-color: #f0f0f0; /* Цвет фона при наведении */
-  }
+    background-color: #f0f0f0;
+}
