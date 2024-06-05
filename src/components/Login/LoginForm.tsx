@@ -3,6 +3,8 @@ import { Button, TextField } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import ModalSuccess from "../Modal/ModalSuccess";
+import { useUser } from "../../contexts/UserContext";
+import data from '../../data.json';
 
 const validationSchema = yup.object({
   email: yup
@@ -14,6 +16,7 @@ const validationSchema = yup.object({
 
 const LoginForm: React.FC = () => {
   const [isLoginSuccessModalOpen, setIsLoginSuccessModalOpen] = useState(false);
+  const {login} = useUser();
 
   return (
     <>
@@ -24,8 +27,17 @@ const LoginForm: React.FC = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
-          setIsLoginSuccessModalOpen(true);
+          const user = data.find(
+            (u: any) => u.email === values.email && u.password === values.password
+          );
+
+          if (user) {
+            login(user);
+            setIsLoginSuccessModalOpen(true);
+          } else {
+            alert("Неправильный email или пароль");
+          }
+
           actions.resetForm();
         }}
       >
@@ -69,7 +81,7 @@ const LoginForm: React.FC = () => {
         isOpen={isLoginSuccessModalOpen}
         onClose={() => setIsLoginSuccessModalOpen(false)}
         title="Успешный вход!"
-        info="С Возвращением!"
+        info={`Добро пожаловать, ${useUser().user?.firstName}`}
       />
     </>
   );

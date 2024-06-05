@@ -2,94 +2,102 @@ import React, { useState } from "react";
 import CurrentYear from "../components/Calendar/CurrentYear";
 import MonthList from "../components/Calendar/MonthList";
 import Calendar from "../components/Calendar/Calendar";
+import { useUser } from "../contexts/UserContext";
 
-const fakeDb = [
-  {
-    id: 1,
-    firstName: "John",
-    lastName: "Biden",
-    email: "john.bid@fake.com",
-    password: "password123",
-    tasks: {
-      "2024": {
-        "5": {
-          "30": [
-            {
-              id: 1,
-              text: "Провести совещание с конгрессом",
-              completed: false,
-            },
-            {
-              id: 2,
-              text: "Выгулять собаку",
-              completed: true,
-            },
-            {
-              id: 3,
-              text: "Поесть кукурузу",
-              completed: true,
-            },
-          ],
-        },
-        "6": {
-          "1": [
-            {
-              id: 4,
-              text: "Покататься на велосипеде в Централ-Парк",
-              completed: false,
-            },
-          ],
-        },
-      },
-    },
-  },
-  {
-    id: 2,
-    firstName: "Cat",
-    lastName: "Boris",
-    email: "cat.boris@meow.com",
-    password: "password456",
-    tasks: {
-      "2024": {
-        "3": {
-          "21": [
-            {
-              id: 5,
-              text: "Поесть корм",
-              completed: false,
-            },
-            {
-              id: 6,
-              text: "Поспать",
-              completed: true,
-            },
-          ],
-        },
-        "6": {
-          "2": [
-            {
-              id: 7,
-              text: "Помурчать у хозяйки на груди",
-              completed: false,
-            },
-          ],
-        },
-      },
-    },
-  },
-];
+// const fakeDb = [
+//   {
+//     id: 1,
+//     firstName: "John",
+//     lastName: "Biden",
+//     email: "john.bid@fake.com",
+//     password: "password123",
+//     tasks: {
+//       "2024": {
+//         "5": {
+//           "30": [
+//             {
+//               id: 1,
+//               text: "Провести совещание с конгрессом",
+//               completed: false,
+//             },
+//             {
+//               id: 2,
+//               text: "Выгулять собаку",
+//               completed: true,
+//             },
+//             {
+//               id: 3,
+//               text: "Поесть кукурузу",
+//               completed: true,
+//             },
+//           ],
+//         },
+//         "6": {
+//           "1": [
+//             {
+//               id: 4,
+//               text: "Покататься на велосипеде в Централ-Парк",
+//               completed: false,
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   },
+//   {
+//     id: 2,
+//     firstName: "Cat",
+//     lastName: "Boris",
+//     email: "cat.boris@meow.com",
+//     password: "password456",
+//     tasks: {
+//       "2024": {
+//         "3": {
+//           "21": [
+//             {
+//               id: 5,
+//               text: "Поесть корм",
+//               completed: false,
+//             },
+//             {
+//               id: 6,
+//               text: "Поспать",
+//               completed: true,
+//             },
+//           ],
+//         },
+//         "6": {
+//           "2": [
+//             {
+//               id: 7,
+//               text: "Помурчать у хозяйки на груди",
+//               completed: false,
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   },
+// ];
 
 const CalendarPage: React.FC = () => {
+  const { user } = useUser();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
+
+  if (!user) {
+    return <div>Пожалуйста, войдите в систему, чтобы увидеть задачи.</div>;
+  }
 
   const handlePrevYear = () => setYear(year - 1);
   const handleNextYear = () => setYear(year + 1);
   const handleSelectMonth = (month: number) => setMonth(month);
 
-  const tasks = fakeDb.reduce((acc, user) => {
-    return { ...acc, ...user.tasks };
-  }, {});
+  // const tasks = fakeDb.reduce((acc, user) => {
+  //   return { ...acc, ...user.tasks };
+  // }, {});
+
+  const tasks = user.tasks;
 
   const getTasksByMonth = (
     tasks: any,

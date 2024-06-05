@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header";
+import { UserProvider } from "./contexts/UserContext";
 
 import "./assets/styles/index.scss";
 
@@ -17,7 +18,7 @@ const App: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <>
+    <UserProvider>
       <Header />
       <div className="page__wrapper wrapper">
         <main className="main-container">
@@ -32,7 +33,7 @@ const App: React.FC = () => {
           </Suspense>
         </main>
       </div>
-    </>
+    </UserProvider>
   );
 };
 
