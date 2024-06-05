@@ -33,8 +33,8 @@ const App: React.FC = () => {
             </Routes>
           </Suspense>
         </main>
-        <Footer />
       </div>
+        <Footer />
 
     </UserProvider>
   );
