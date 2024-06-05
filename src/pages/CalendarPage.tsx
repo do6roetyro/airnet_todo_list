@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import CurrentYear from "../components/Calendar/CurrentYear";
+import MonthList from "../components/Calendar/MonthList";
+import Calendar from "../components/Calendar/Calendar";
 
 const fakeDb = [
   {
@@ -78,9 +80,60 @@ const fakeDb = [
 ];
 
 const CalendarPage: React.FC = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth());
+
+  const handlePrevYear = () => setYear(year - 1);
+  const handleNextYear = () => setYear(year + 1);
+  const handleSelectMonth = (month: number) => setMonth(month);
+
+  const tasks = {
+    "2024": {
+      "5": {
+        "30": [
+          {
+            id: 1,
+            text: "Провести совещание с конгрессом",
+            completed: false,
+          },
+          {
+            id: 2,
+            text: "Выгулять собаку",
+            completed: true,
+          },
+          {
+            id: 3,
+            text: "Поесть кукурузу",
+            completed: true,
+          },
+        ],
+      },
+      "6": {
+        "1": [
+          {
+            id: 4,
+            text: "Покататься на велосипеде в Централ-Парк",
+            completed: false,
+          },
+        ],
+      },
+    },
+  };
+
   return (
     <section className="calendar">
-      
+      <CurrentYear
+        year={year}
+        onPrev={handlePrevYear}
+        onNext={handleNextYear}
+      />
+      <MonthList currentMonth={month} onSelectMonth={handleSelectMonth} />
+      <Calendar
+        year={year}
+        month={month}
+        tasks={tasks}
+        onDayClick={(date) => console.log(date)}
+      />
     </section>
   );
 };

@@ -1,11 +1,17 @@
-import React from 'react';
+import React from "react";
 
-const CurrentYear: React.FC<{ year: number; onPrev: () => void; onNext: () => void; }> = ({ year, onPrev, onNext }) => {
+interface CurrentYearProps {
+  year: number;
+  onPrev: () => void;
+  onNext: () => void;
+}
+
+const CurrentYear: React.FC<CurrentYearProps> = ({ year, onPrev, onNext }) => {
   return (
-    <div className="current-year">
-      <button onClick={onPrev}>⟵</button>
-      <span>{year}</span>
-      <button onClick={onNext}>⟶</button>
+    <div className="calendar__current-year current-year">
+      <button className="current-year__button current-year__button--prev" onClick={onPrev}>⟵</button>
+      <span className="current-year__date">{year}</span>
+      <button className="current-year__button current-year__button--next" onClick={onNext}>⟶</button>
     </div>
   );
 };
