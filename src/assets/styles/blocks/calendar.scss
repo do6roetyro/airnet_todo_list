@@ -5,6 +5,11 @@
     align-items: center;
 }
 
+.calendar__months {
+    display: flex;
+    gap: 5px;
+  }
+
 
     .calendar__table {
         display: grid;

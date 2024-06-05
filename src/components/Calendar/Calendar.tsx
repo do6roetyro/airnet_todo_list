@@ -29,7 +29,7 @@ const Calendar: React.FC<CalendarProps> = ({
     }
 
     for (let i = 1; i <= daysInMonth; i++) {
-      const date = new Date(year, month, i);
+      // const date = new Date(year, month, i);
       const hasTasks = tasks[year]?.[month + 1]?.[i] !== undefined;
       week.push({ date: i, hasTasks });
       if (week.length === 7 || i === daysInMonth) {
