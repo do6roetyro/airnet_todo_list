@@ -1,0 +1,22 @@
+@use "../global/variables.scss";
+
+.current-year {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 1rem;
+}
+
+.current-year__button {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    color: variables.$color-blue;
+    border: 2px solid variables.$color-blue;
+    border-radius: 100%;
+
+}
+
+.current-year__date {
+    font-size: 1.5rem;
+    font-weight: 700;
+}

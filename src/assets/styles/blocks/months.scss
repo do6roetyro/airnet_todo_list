@@ -1,0 +1,14 @@
+@use "../global/variables.scss";
+
+.months {
+    display: grid;
+   grid-template-columns: repeat(4, 1fr);
+    gap: 0.1rem;
+}
+
+.months__button  {
+    padding: 1rem;
+    color: variables.$color-blue;
+    border: 2px solid variables.$color-blue;
+   
+}
