@@ -17,15 +17,32 @@ const Calendar: React.FC<CalendarProps> = ({
   tasks,
   onDayClick,
 }) => {
-  const [holidays, setHolidays] = useState<{ [key: number]: boolean }>({});
+  const [holidays, setHolidays] = useState<{
+    [month: number]: { [day: number]: boolean };
+  }>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchHolidays = async (year: number, month: number) => {
+    const currentMonthHolidays = await isDayOff(year, month);
+    const prevMonth = (month - 1 + 12) % 12;
+    const prevYear = prevMonth === 11 ? year - 1 : year;
+    const prevMonthHolidays = await isDayOff(prevYear, prevMonth);
+
+    const nextMonth = (month + 1) % 12;
+    const nextYear = nextMonth === 0 ? year + 1 : year;
+    const nextMonthHolidays = await isDayOff(nextYear, nextMonth);
+
+    setHolidays((prevHolidays) => ({
+      ...prevHolidays,
+      [month]: currentMonthHolidays,
+      [prevMonth]: prevMonthHolidays,
+      [nextMonth]: nextMonthHolidays,
+    }));
+  };
 
   useEffect(() => {
-    const fetchHolidays = async () => {
-      const holidaysData = await isDayOff(year, month);
-      setHolidays(holidaysData);
-    };
-
-    fetchHolidays();
+    setIsLoading(true);
+    fetchHolidays(year, month).finally(() => setIsLoading(false));
   }, [year, month]);
 
   return (
@@ -37,11 +54,21 @@ const Calendar: React.FC<CalendarProps> = ({
           </div>
         ))}
       </div>
-      {generateCalendar(year, month, tasks).map((week, index) => (
-        <div className="calendar-table__week" key={index}>
-          <Week days={week} holidays={holidays} onDayClick={onDayClick} />
+      {isLoading ? (
+        <div className="calendar__loading">
+          Подождите - приложение готовится к работе
         </div>
-      ))}
+      ) : (
+        generateCalendar(year, month, tasks).map((week, index) => (
+          <div className="calendar-table__week" key={index}>
+            <Week
+              days={week}
+              holidays={holidays[month] || {}}
+              onDayClick={onDayClick}
+            />
+          </div>
+        ))
+      )}
     </div>
   );
 };

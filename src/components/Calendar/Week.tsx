@@ -2,9 +2,9 @@ import React from "react";
 import Day from "./Day";
 
 interface WeekProps {
-    days: { date: number; hasTasks: boolean }[];
-    holidays: { [key: number]: boolean };
-    onDayClick: (date: number) => void;
+  days: { date: number; hasTasks: boolean }[];
+  holidays: { [key: number]: boolean };
+  onDayClick: (date: number) => void;
 }
 
 const Week: React.FC<WeekProps> = ({ days, holidays, onDayClick }) => {

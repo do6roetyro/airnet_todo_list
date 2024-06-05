@@ -47,5 +47,6 @@
 
     &--active {
         background-color: variables.$color-white-grey;
+        outline: 3px solid variables.$color-blue-light;
     }
 }
