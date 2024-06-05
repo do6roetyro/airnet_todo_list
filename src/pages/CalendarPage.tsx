@@ -87,38 +87,26 @@ const CalendarPage: React.FC = () => {
   const handleNextYear = () => setYear(year + 1);
   const handleSelectMonth = (month: number) => setMonth(month);
 
-  const tasks = {
-    "2024": {
-      "5": {
-        "30": [
-          {
-            id: 1,
-            text: "Провести совещание с конгрессом",
-            completed: false,
-          },
-          {
-            id: 2,
-            text: "Выгулять собаку",
-            completed: true,
-          },
-          {
-            id: 3,
-            text: "Поесть кукурузу",
-            completed: true,
-          },
-        ],
-      },
-      "6": {
-        "1": [
-          {
-            id: 4,
-            text: "Покататься на велосипеде в Централ-Парк",
-            completed: false,
-          },
-        ],
-      },
-    },
+  const tasks = fakeDb.reduce((acc, user) => {
+    return { ...acc, ...user.tasks };
+  }, {});
+
+  const getTasksByMonth = (
+    tasks: any,
+    year: number
+  ): { [key: number]: boolean } => {
+    const tasksByMonth: { [key: number]: boolean } = {};
+
+    if (tasks[year]) {
+      Object.keys(tasks[year]).forEach((month) => {
+        tasksByMonth[parseInt(month) - 1] = true; // Преобразование месяца к индексу (0-11)
+      });
+    }
+
+    return tasksByMonth;
   };
+
+  const tasksByMonth = getTasksByMonth(tasks, year);
 
   return (
     <section className="calendar">
@@ -127,7 +115,11 @@ const CalendarPage: React.FC = () => {
         onPrev={handlePrevYear}
         onNext={handleNextYear}
       />
-      <MonthList currentMonth={month} onSelectMonth={handleSelectMonth} />
+      <MonthList
+        currentMonth={month}
+        onSelectMonth={handleSelectMonth}
+        tasksByMonth={tasksByMonth}
+      />
       <Calendar
         year={year}
         month={month}
