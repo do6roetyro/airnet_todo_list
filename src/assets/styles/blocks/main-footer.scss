@@ -1,0 +1,24 @@
+@use "../global/variables.scss";
+
+.main-footer {
+    width: 100%;
+}
+
+.main-footer__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: variables.$color-white-grey;
+    border-top: 2px solid variables.$color-blue;
+    margin-top: 2rem;
+}
+
+.main-footer__link {
+    padding: 1rem;
+}
+
+.main-footer__copyright {
+    span {
+        display: block;
+    }
+}

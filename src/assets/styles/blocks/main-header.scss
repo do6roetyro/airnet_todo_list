@@ -2,15 +2,19 @@
 
 .main-header {
     width: 100%;
+    
+    padding-bottom: 2rem;
 }
 
 .main-header__wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-top: 1rem;
     padding-bottom: 1rem;
     border-bottom: 2px solid variables.$color-blue;
-    margin-bottom: 2rem;
+    background-color: variables.$color-white-grey;
+    // margin-bottom: 2rem;
 }
 
 .main-header__link {

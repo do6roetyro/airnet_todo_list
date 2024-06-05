@@ -7,9 +7,9 @@ import { UserProvider } from "./contexts/UserContext";
 import "./assets/styles/index.scss";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
-const LoginPage = lazy(() => import("./pages/LoginPage"))
-const RegisterPage = lazy(() => import("./pages/RegisterPage"))
-const CalendarPage = lazy(() => import("./pages/CalendarPage"))
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const CalendarPage = lazy(() => import("./pages/CalendarPage"));
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -34,8 +34,11 @@ const App: React.FC = () => {
           </Suspense>
         </main>
       </div>
-        <Footer />
-
+      <Footer
+        url="https://github.com/do6roetyro"
+        link_name="GitHub"
+        copyright="© ToDoList"
+      />
     </UserProvider>
   );
 };
