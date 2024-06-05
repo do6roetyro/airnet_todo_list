@@ -19,14 +19,19 @@
         background-color: #f0f0f0;
     }
 
+    &:hover {
+        .months__name {
+            background-color: #f0f0f0;
+        }
+    }
+
     &:focus-within {
-        outline: 3px solid rgba(21, 156, 228, 0.4);
-        
+        outline: 3px solid variables.$color-blue-light;
     }
 }
 
 .months__radio {
-    display: none; /* Скрываем саму радиокнопку */
+    display: none;
 }
 
 .months__name {
@@ -37,14 +42,10 @@
     transition: background-color 0.3s, font-weight 0.3s;
 
     &--has-tasks {
-        background-color: #ffc0cb;
+        background-color: variables.$color-yellow;
     }
 
     &--active {
-        background-color: #f0f0f0;
+        background-color: variables.$color-white-grey;
     }
-}
-
-.months__label:hover .months__name {
-    background-color: #f0f0f0;
 }

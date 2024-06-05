@@ -8,11 +8,10 @@
 .calendar__months {
     display: flex;
     gap: 5px;
-  }
+}
 
-
-    .calendar__table {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-      }
+.calendar__table {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}

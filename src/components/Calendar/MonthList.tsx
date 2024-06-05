@@ -27,7 +27,7 @@ const MonthList: React.FC<MonthListProps> = ({
         <label
           key={index}
           className="months__label"
-          tabIndex={0} // Добавляем tabindex для участия в последовательности табуляции
+          tabIndex={0}
           onKeyDown={(event) => handleKeyDown(event, index)}
         >
           <input
