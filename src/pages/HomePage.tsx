@@ -1,5 +1,4 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   return (
@@ -10,9 +9,6 @@ const HomePage: React.FC = () => {
       <p className="hero__description description">
         Чтобы начать - зарегистируйтесь или войдите в свой профиль
       </p>
-      {/* <Link to="/calendar" className="hero__link link">
-      Перейти в календарь
-    </Link> */}
     </section>
   );
 };

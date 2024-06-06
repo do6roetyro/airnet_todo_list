@@ -1,10 +1,8 @@
 import React, { Suspense, lazy, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import { UserProvider } from "./contexts/UserContext";
-
-import "./assets/styles/index.scss";
+import { useUser } from "./contexts/UserContext";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
@@ -13,23 +11,30 @@ const CalendarPage = lazy(() => import("./pages/CalendarPage"));
 
 const App: React.FC = () => {
   const location = useLocation();
+  const { user } = useUser();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (
-    <UserProvider>
+    <>
       <Header />
       <div className="page__wrapper wrapper">
         <main className="main-container">
           <h1 className="visually-hidden">ToDoList - планировщик дел.</h1>
           <Suspense fallback={<div className="suspense-load"></div>}>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route
+                path="/"
+                element={user ? <Navigate to="/calendar" /> : <HomePage />}
+              />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/calendar" element={<CalendarPage />} />
+              <Route
+                path="/calendar"
+                element={user ? <CalendarPage /> : <Navigate to="/" />}
+              />
             </Routes>
           </Suspense>
         </main>
@@ -39,7 +44,7 @@ const App: React.FC = () => {
         link_name="GitHub"
         copyright="© ToDoList"
       />
-    </UserProvider>
+    </>
   );
 };
 
