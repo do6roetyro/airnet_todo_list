@@ -22,7 +22,6 @@ const CalendarPage: React.FC = () => {
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth() + 1;
       const day = selectedDate.getDate();
-
       const tasks = user.tasks[year]?.[month]?.[day] || [];
       setSelectedTasks(tasks);
     }
@@ -136,6 +135,26 @@ const CalendarPage: React.FC = () => {
     }
   };
 
+  const handleModalClose = () => {
+    if (selectedDate && user) {
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const day = selectedDate.getDate();
+
+      if (user.tasks[year]?.[month]?.[day]?.length === 0) {
+        delete user.tasks[year][month][day];
+        if (Object.keys(user.tasks[year][month]).length === 0) {
+          delete user.tasks[year][month];
+        }
+        if (Object.keys(user.tasks[year]).length === 0) {
+          delete user.tasks[year];
+        }
+        login({ ...user, tasks: { ...user.tasks } });
+      }
+    }
+    setIsModalOpen(false);
+  };
+
   return (
     <section className="calendar">
       <CurrentYear
@@ -157,7 +176,7 @@ const CalendarPage: React.FC = () => {
       />
       <TaskModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleModalClose}
         date={selectedDate ? selectedDate.toLocaleDateString() : ""}
         tasks={selectedTasks}
         onAddTask={handleAddTask}
