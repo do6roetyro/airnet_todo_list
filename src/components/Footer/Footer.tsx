@@ -14,11 +14,9 @@ const Footer: React.FC<FooterProps> = ({ url, link_name, copyright }) => {
         <a
           className="main-footer__link main-footer__link--github link"
           href={url}
-          //   href="https://github.com/do6roetyro"
           target="_blank"
           rel="noopener noreferrer"
         >
-          {/* <span className="visually-hidden">Гитхаб</span> */}
           <span className="visually-hidden">{link_name}</span>
           <img
             src={logo as unknown as string}
