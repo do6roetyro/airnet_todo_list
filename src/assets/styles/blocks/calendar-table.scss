@@ -1,5 +1,6 @@
 @use "../global/variables.scss";
 
+
 .calendar-table__header {
     display: contents;
 }
@@ -62,12 +63,16 @@
 
 .calendar-table__week-point{
     position: relative;
-    top: 44px;
+    top: 3.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 100%;
+    left: 0.5rem;
 
     &--has-tasks {
-        background-color: yellow;
+        background-color: variables.$color-yellow;
     }
     &--no-tasks {
-        background-color: grey;
+        background-color: variables.$color-grey;
     }
 }

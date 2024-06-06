@@ -1,5 +1,8 @@
+import pLimit from "p-limit";
+
 const API_URL = "https://isdayoff.ru/api/getdata?year=";
 
+const limit = pLimit(5); // Ограничиваем количество одновременных запросов
 const cache: { [key: string]: { [month: number]: { [day: number]: boolean } } } = {};
 
 // Получение данных из localStorage

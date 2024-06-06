@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-// import TaskModal from "../components/TaskModal/TaskModal";
+import Button from '@mui/material/Button';
 
 const WeekTasksPage: React.FC = () => {
   const navigate = useNavigate();
@@ -18,25 +18,39 @@ const WeekTasksPage: React.FC = () => {
   return (
     <div className="week-tasks-page">
       <div className="week-tasks-page__header">
-        <h2>Список задач на неделю</h2>
-        <p>
+        <h2 className="week-tasks-page__title">Список задач на неделю</h2>
+        <p className="week-tasks-page__interval">
           {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
         </p>
-        <button onClick={() => navigate("/calendar")}>Вернуться в календарь</button>
       </div>
       <div className="week-tasks-page__body">
         {tasks.map((task: any) => (
-          <div key={task.date} className="week-tasks-page__day">
-            <h3>{new Date(task.date).toLocaleDateString()}</h3>
-            <ul>
+          <div className="week-tasks-page__container" key={task.date}>
+            <h3 className="week-tasks-page__day">
+              {new Date(task.date).toLocaleDateString()}
+            </h3>
+            <ul className="week-tasks-page__list list">
               {task.tasks.map((t: any) => (
-                <li key={t.id} className={`task ${t.completed ? "task--completed" : ""}`}>
+                <li
+                  key={t.id}
+                  className={`week-tasks-page__item ${
+                    t.completed ? "week-tasks-page__item--completed" : ""
+                  }`}
+                >
                   {t.text}
                 </li>
               ))}
             </ul>
           </div>
         ))}
+        <Button
+          className="week-tasks-page__return-button"
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/calendar")}
+        >
+          Вернуться в календарь
+        </Button>
       </div>
     </div>
   );

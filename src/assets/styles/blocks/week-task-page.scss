@@ -1,0 +1,43 @@
+@use "../global/variables.scss";
+
+.week-tasks-page__title {
+    font-weight: 700;
+}
+
+.week-tasks-page__interval {
+    margin-top: 0.5rem;
+}
+
+.week-tasks-page__header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.week-tasks-page__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.week-tasks-page__day {
+    font-weight: 700;
+}
+
+.week-tasks-page__list {
+    color: variables.$color-black;
+}
+
+.week-tasks-page__item {
+    padding: 0.25rem 0;
+    padding-left: 0.5rem;
+    border-radius: 5px;
+    &--completed {
+        background-color: variables.$color-green-salad;
+    }
+}
+
+.week-tasks-page__return-button {
+    max-width: 256px;
+    align-self: center;
+}
