@@ -64,23 +64,27 @@ const TaskModal: React.FC<TaskModalProps> = ({
       </div>
       <div className="task-modal__body">
         <h2 className="task-modal__title">Список задач</h2>
-        <ul className="task-modal__task-list">
-          {tasks.map((task) => (
-            <li
-              key={task.id}
-              className={`task-modal__task ${
-                task.completed ? "task-modal__task--completed" : ""
-              }`}
-            >
-              <Checkbox
-                checked={task.completed}
-                onChange={() => onToggleTask(task.id)}
-              />
-              <span className="task-modal__text">{task.text}</span>
-              <Button onClick={() => onDeleteTask(task.id)}>Удалить</Button>
-            </li>
-          ))}
-        </ul>
+        {tasks.length === 0 ? (
+          <p className="task-modal__empty">Список пуст</p>
+        ) : (
+          <ul className="task-modal__task-list">
+            {tasks.map((task) => (
+              <li
+                key={task.id}
+                className={`task-modal__task ${
+                  task.completed ? "task-modal__task--completed" : ""
+                }`}
+              >
+                <Checkbox
+                  checked={task.completed}
+                  onChange={() => onToggleTask(task.id)}
+                />
+                <span className="task-modal__text">{task.text}</span>
+                <Button onClick={() => onDeleteTask(task.id)}>Удалить</Button>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="task-modal__add-task">
           <TextField
             value={newTaskText}

@@ -59,7 +59,7 @@
     border-radius: 5px;
 
     &--completed {
-        background: #d9ffd9;
+        background: variables.$color-green-salad;
     }
 
     button {
@@ -93,4 +93,9 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: 700;
+}
+
+.task-modal__empty {
+    text-align: center;
+    margin: 0;
 }
