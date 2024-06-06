@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, TextField, Checkbox } from "@mui/material";
+import logo from "../../assets/images/cross.svg"
 
 interface TaskModalProps {
   isOpen: boolean;
@@ -51,11 +52,18 @@ const TaskModal: React.FC<TaskModalProps> = ({
           {date}
         </span>
         <Button className="task-modal__close" onClick={onClose}>
-          X
+        <span className="visually-hidden">Закрыть</span>
+          <img
+            src={logo as unknown as string}
+            alt='Крестик'
+            className="social__logo"
+            width={32}
+            height={32}
+          />
         </Button>
       </div>
       <div className="task-modal__body">
-        <h2>Список задач</h2>
+        <h2 className="task-modal__title">Список задач</h2>
         <ul className="task-modal__task-list">
           {tasks.map((task) => (
             <li
@@ -68,7 +76,7 @@ const TaskModal: React.FC<TaskModalProps> = ({
                 checked={task.completed}
                 onChange={() => onToggleTask(task.id)}
               />
-              <span>{task.text}</span>
+              <span className="task-modal__text">{task.text}</span>
               <Button onClick={() => onDeleteTask(task.id)}>Удалить</Button>
             </li>
           ))}

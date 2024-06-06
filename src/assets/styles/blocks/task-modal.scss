@@ -56,18 +56,15 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
+    border-radius: 5px;
 
     &--completed {
         background: #d9ffd9;
     }
 
-    span {
-        flex-grow: 1;
-        margin-left: 10px;
-    }
-
     button {
         margin-left: 10px;
+        margin-right: 10px;
     }
 }
 
@@ -83,4 +80,17 @@
     button {
         margin-left: 10px;
     }
+}
+
+.task-modal__text {
+    flex-grow: 1;
+    margin-left: 10px;
+    color: variables.$color-black;
+}
+
+.task-modal__title {
+    padding-bottom: 2rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
 }

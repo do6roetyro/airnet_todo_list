@@ -11,10 +11,12 @@ const CalendarPage: React.FC = () => {
   const [month, setMonth] = useState(new Date().getMonth());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedTasks, setSelectedTasks] = useState<{ id: number; text: string; completed: boolean }[]>([]);
+  const [selectedTasks, setSelectedTasks] = useState<
+    { id: number; text: string; completed: boolean }[]
+  >([]);
 
   useEffect(() => {
-    if (selectedDate && user) { // Добавлена проверка на user
+    if (selectedDate && user) {
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth() + 1;
       const day = selectedDate.getDate();
@@ -27,7 +29,8 @@ const CalendarPage: React.FC = () => {
   if (!user) {
     return (
       <p className="main-container__description">
-        Пожалуйста, зарегистрируйтесь или войдите в свой профиль, чтобы увидеть задачи.
+        Пожалуйста, зарегистрируйтесь или войдите в свой профиль, чтобы увидеть
+        задачи.
       </p>
     );
   }
@@ -62,7 +65,7 @@ const CalendarPage: React.FC = () => {
   };
 
   const handleAddTask = (text: string) => {
-    if (selectedDate && user) { // Добавлена проверка на user
+    if (selectedDate && user) {
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth() + 1;
       const day = selectedDate.getDate();
@@ -76,12 +79,12 @@ const CalendarPage: React.FC = () => {
 
       setSelectedTasks((prevTasks) => [...prevTasks, newTask]);
 
-      login(user); // обновление данных пользователя
+      login({ ...user, tasks: { ...user.tasks } }); // обновление данных пользователя
     }
   };
 
   const handleToggleTask = (id: number) => {
-    if (selectedDate && user) { // Добавлена проверка на user
+    if (selectedDate && user) {
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth() + 1;
       const day = selectedDate.getDate();
@@ -93,13 +96,13 @@ const CalendarPage: React.FC = () => {
 
         setSelectedTasks([...tasks]);
 
-        login(user); // обновление данных пользователя
+        login({ ...user, tasks: { ...user.tasks } }); // обновление данных пользователя
       }
     }
   };
 
   const handleDeleteTask = (id: number) => {
-    if (selectedDate && user) { // Добавлена проверка на user
+    if (selectedDate && user) {
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth() + 1;
       const day = selectedDate.getDate();
@@ -109,7 +112,7 @@ const CalendarPage: React.FC = () => {
 
       setSelectedTasks(user.tasks[year][month][day]);
 
-      login(user); // обновление данных пользователя
+      login({ ...user, tasks: { ...user.tasks } }); // обновление данных пользователя
     }
   };
 
