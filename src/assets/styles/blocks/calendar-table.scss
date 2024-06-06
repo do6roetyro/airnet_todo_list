@@ -34,13 +34,16 @@
         box-shadow: 0 0 0 3px variables.$color-blue-light;
     }
 
+    &--holiday {
+        background-color: variables.$color-pink-medium-light; 
+        color: variables.$color-red; 
+    }
     &--has-tasks {
         background-color: variables.$color-yellow;
     }
 
-    &--holiday {
-        background-color: #ffcccc; /* Цвет фона для праздничных дней */
-        color: #d9534f; /* Цвет текста для праздничных дней */
+    &--has-tasks.calendar-table__day--holiday {
+        background-color: variables.$color-yellow;
     }
 }
 
