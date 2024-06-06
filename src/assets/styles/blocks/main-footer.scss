@@ -2,14 +2,14 @@
 
 .main-footer {
     width: 100%;
+    color: variables.$color-white;
 }
 
 .main-footer__wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: variables.$color-white-grey;
-    border-top: 2px solid variables.$color-blue;
+    background-color: variables.$color-blue;
     margin-top: 2rem;
 }
 
