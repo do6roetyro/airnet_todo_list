@@ -1,9 +1,9 @@
-import pLimit from "p-limit";
+// import pLimit from "p-limit";
 
 const API_URL = "https://isdayoff.ru/";
 
-const limit = pLimit(5); // Ограничиваем количество одновременных запросов
-const cache: { [key: string]: { [day: number]: boolean } } = {};
+// const limit = pLimit(5); // Ограничиваем количество одновременных запросов
+const cache: { [key: string]: { [month: number]: { [day: number]: boolean } } } = {};
 
 // Получение данных из localStorage
 const getFromLocalStorage = (key: string) => {
@@ -16,26 +16,28 @@ const saveToLocalStorage = (key: string, data: any) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-const fetchDayOff = async (
-  year: number,
-  month: number,
-  day: number
-): Promise<boolean> => {
-  const formattedMonth = String(month + 1).padStart(2, "0");
-  const formattedDay = String(day).padStart(2, "0");
-  const response = await fetch(
-    `${API_URL}${year}${formattedMonth}${formattedDay}`
-  );
-
+const fetchYearOff = async (year: number): Promise<{ [month: number]: { [day: number]: boolean } }> => {
+  const response = await fetch(`${API_URL}api/getdata?year=${year}&delimeter=%0A`);
   if (response.ok) {
     const data = await response.text(); // API возвращает текст
-    console.log("isDay");
-    return data === "1"; // '1' означает выходной
+    const days = data.split('\n');
+    const holidays: { [month: number]: { [day: number]: boolean } } = {};
+
+    days.forEach((day, index) => {
+      const month = Math.floor(index / 31) + 1;
+      const dayOfMonth = (index % 31) + 1;
+
+      if (!holidays[month]) {
+        holidays[month] = {};
+      }
+
+      holidays[month][dayOfMonth] = day === '1';
+    });
+
+    return holidays;
   } else {
-    console.error(
-      `Failed to fetch data for ${year}-${formattedMonth}-${formattedDay}`
-    );
-    return false;
+    console.error(`Failed to fetch data for year ${year}`);
+    throw new Error(`Failed to fetch data for year ${year}`);
   }
 };
 
@@ -43,39 +45,25 @@ export const isDayOff = async (
   year: number,
   month: number
 ): Promise<{ [day: number]: boolean }> => {
-  const cacheKey = `${year}-${month}`;
+  const cacheKey = `${year}`;
 
-  //cache check
+  // Cache check
   if (cache[cacheKey]) {
-    return cache[cacheKey];
+    return cache[cacheKey][month];
   }
 
-  //localStorage check
+  // LocalStorage check
   const localStorageData = getFromLocalStorage(cacheKey);
   if (localStorageData) {
     cache[cacheKey] = localStorageData;
-    return localStorageData;
+    return localStorageData[month];
   }
 
-  const holidays: { [day: number]: boolean } = {};
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const yearHolidays = await fetchYearOff(year);
 
-  const promises = [];
-  for (let day = 1; day <= daysInMonth; day++) {
-    promises.push(
-      limit(() =>
-        fetchDayOff(year, month, day).then((isHoliday) => {
-          holidays[day] = isHoliday;
-        })
-      )
-    );
-  }
+  // Save data to cache and LS
+  cache[cacheKey] = yearHolidays;
+  saveToLocalStorage(cacheKey, yearHolidays);
 
-  await Promise.all(promises);
-
-  // save data to cache and LS
-  cache[cacheKey] = holidays;
-  saveToLocalStorage(cacheKey, holidays);
-
-  return holidays;
+  return yearHolidays[month];
 };

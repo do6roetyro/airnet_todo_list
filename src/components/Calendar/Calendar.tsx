@@ -9,7 +9,7 @@ interface CalendarProps {
   month: number;
   tasks: any;
   onDayClick: (date: number) => void;
-  onWeekClick: (startOfWeek: Date) => void; // Новый пропс
+  onWeekClick: (startOfWeek: Date) => void;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
@@ -17,34 +17,24 @@ const Calendar: React.FC<CalendarProps> = ({
   month,
   tasks,
   onDayClick,
-  onWeekClick, // Новый пропс
+  onWeekClick,
 }) => {
   const [holidays, setHolidays] = useState<{
     [month: number]: { [day: number]: boolean };
   }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchHolidays = async (year: number, month: number) => {
-    const currentMonthHolidays = await isDayOff(year, month);
-    const prevMonth = (month - 1 + 12) % 12;
-    const prevYear = prevMonth === 11 ? year - 1 : year;
-    const prevMonthHolidays = await isDayOff(prevYear, prevMonth);
-
-    const nextMonth = (month + 1) % 12;
-    const nextYear = nextMonth === 0 ? year + 1 : year;
-    const nextMonthHolidays = await isDayOff(nextYear, nextMonth);
-
-    setHolidays((prevHolidays) => ({
-      ...prevHolidays,
-      [month]: currentMonthHolidays,
-      [prevMonth]: prevMonthHolidays,
-      [nextMonth]: nextMonthHolidays,
-    }));
-  };
-
   useEffect(() => {
+    const fetchHolidays = async (year: number) => {
+      const yearHolidays = await isDayOff(year, month);
+      setHolidays((prevHolidays) => ({
+        ...prevHolidays,
+        [month]: yearHolidays,
+      }));
+    };
+
     setIsLoading(true);
-    fetchHolidays(year, month).finally(() => setIsLoading(false));
+    fetchHolidays(year).finally(() => setIsLoading(false));
   }, [year, month]);
 
   const hasTasksForWeek = (startOfWeek: Date): boolean => {
@@ -84,7 +74,10 @@ const Calendar: React.FC<CalendarProps> = ({
                   ? "calendar-table__week-point--has-tasks"
                   : "calendar-table__week-point--no-tasks"
               }`}
-              onClick={() => hasTasksForWeek(new Date(year, month, index * 7 + 1)) && onWeekClick(new Date(year, month, index * 7 + 1))}
+              onClick={() =>
+                hasTasksForWeek(new Date(year, month, index * 7 + 1)) &&
+                onWeekClick(new Date(year, month, index * 7 + 1))
+              }
             />
             <Week
               days={week}

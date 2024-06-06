@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import TaskModal from "../components/TaskModal/TaskModal";
+// import TaskModal from "../components/TaskModal/TaskModal";
 
 const WeekTasksPage: React.FC = () => {
   const navigate = useNavigate();
