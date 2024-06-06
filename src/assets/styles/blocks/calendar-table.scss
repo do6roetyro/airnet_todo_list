@@ -9,13 +9,14 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    padding: 10px;
+    padding: 8px 10px;
     border-bottom: 1px solid variables.$color-grey;
 }
 
 .calendar-table__week {
     display: contents;
-}
+    position: relative;
+  }
 
 .calendar-table__day {
     display: flex;
@@ -47,8 +48,26 @@
     }
 }
 
+.calendar-table__days {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+  }
+
 .calendar-table__day.empty {
     background-color: transparent;
     border: none;
     cursor: default;
+}
+
+.calendar-table__week-point{
+    position: relative;
+    top: 44px;
+
+    &--has-tasks {
+        background-color: yellow;
+    }
+    &--no-tasks {
+        background-color: grey;
+    }
 }

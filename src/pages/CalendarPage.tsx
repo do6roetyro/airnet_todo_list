@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CurrentYear from "../components/Calendar/CurrentYear";
 import MonthList from "../components/Calendar/MonthList";
 import Calendar from "../components/Calendar/Calendar";
@@ -7,6 +8,7 @@ import { useUser } from "../contexts/UserContext";
 
 const CalendarPage: React.FC = () => {
   const { user, login } = useUser();
+  const navigate = useNavigate();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -62,6 +64,24 @@ const CalendarPage: React.FC = () => {
     const currentDate = new Date(year, month, date);
     setSelectedDate(currentDate);
     setIsModalOpen(true);
+  };
+
+  const handleWeekClick = (startOfWeek: Date) => {
+    const tasksForWeek = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      if (user.tasks[year]?.[month]?.[day]) {
+        tasksForWeek.push({
+          date: date.toISOString(),
+          tasks: user.tasks[year][month][day],
+        });
+      }
+    }
+    navigate("/week-tasks", { state: { startOfWeek: startOfWeek.toISOString(), tasks: tasksForWeek } });
   };
 
   const handleAddTask = (text: string) => {
@@ -133,6 +153,7 @@ const CalendarPage: React.FC = () => {
         month={month}
         tasks={tasks}
         onDayClick={handleDayClick}
+        onWeekClick={handleWeekClick}
       />
       <TaskModal
         isOpen={isModalOpen}

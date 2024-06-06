@@ -8,6 +8,7 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const CalendarPage = lazy(() => import("./pages/CalendarPage"));
+const WeekTasksPage = lazy(() => import("./pages/WeekTaskPage")); // Новый импорт
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -34,6 +35,10 @@ const App: React.FC = () => {
               <Route
                 path="/calendar"
                 element={user ? <CalendarPage /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/week-tasks"
+                element={user ? <WeekTasksPage /> : <Navigate to="/" />}
               />
             </Routes>
           </Suspense>
