@@ -19,18 +19,20 @@ const Calendar: React.FC<CalendarProps> = ({
   onDayClick,
   onWeekClick,
 }) => {
-  const [holidays, setHolidays] = useState<{ [day: number]: boolean }>({});
+  const [holidays, setHolidays] = useState<{
+    [month: number]: { [day: number]: boolean };
+  }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchHolidays = async (year: number, month: number) => {
-      const monthHolidays = await isDayOff(year, month);
-      setHolidays(monthHolidays);
+    const fetchHolidays = async (year: number) => {
+      const yearHolidays = await isDayOff(year);
+      setHolidays(yearHolidays);
     };
 
     setIsLoading(true);
-    fetchHolidays(year, month).finally(() => setIsLoading(false));
-  }, [year, month]);
+    fetchHolidays(year).finally(() => setIsLoading(false));
+  }, [year]);
 
   const hasTasksForWeek = (startOfWeek: Date): boolean => {
     const tasksForWeek = [];
@@ -45,6 +47,12 @@ const Calendar: React.FC<CalendarProps> = ({
       }
     }
     return tasksForWeek.length > 0;
+  };
+
+  const startOfWeekOffset = (startOfWeek: Date): Date => {
+    const date = new Date(startOfWeek);
+    date.setDate(date.getDate() - ((date.getDay() + 6) % 7)); // Смещение к понедельнику
+    return date;
   };
 
   return (
@@ -62,7 +70,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
       ) : (
         generateCalendar(year, month, tasks).map((week, index) => {
-          const startOfWeek = new Date(year, month, week[0].date);
+          const startOfWeek = startOfWeekOffset(new Date(year, month, week[0].date));
           return (
             <div className="calendar-table__week" key={index}>
               <div
@@ -77,7 +85,7 @@ const Calendar: React.FC<CalendarProps> = ({
               />
               <Week
                 days={week}
-                holidays={holidays}
+                holidays={holidays[month] || {}}
                 onDayClick={onDayClick}
               />
             </div>

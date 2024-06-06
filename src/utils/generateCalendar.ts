@@ -10,7 +10,7 @@ const generateCalendar = (
   const daysInMonth = getDaysInMonth(year, month);
   const weeks: { date: number; hasTasks: boolean }[][] = [];
   let week: { date: number; hasTasks: boolean }[] = [];
-  const startDay = (new Date(year, month, 1).getDay() + 6) % 7; // Смещение начала недели
+  const startDay = (new Date(year, month, 1).getDay() + 6) % 7; 
 
   console.log(`Generating calendar for ${year}-${month + 1}`);
   console.log(`Days in month: ${daysInMonth}`);
