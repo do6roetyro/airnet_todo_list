@@ -18,9 +18,10 @@ const Navigation: React.FC = () => {
         <Button
           className="main-nav__logout-button"
           onClick={logout}
-          variant="outlined"
+          variant="text"
           color="primary"
           size="medium"
+          sx={{ color: 'white' }}
         >
           Выйти
         </Button>
