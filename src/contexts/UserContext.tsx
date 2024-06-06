@@ -33,7 +33,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       localStorage.removeItem("user");
     }
   }, [user]);
-  
 
   const login = (userData: User) => {
     setUser(userData);

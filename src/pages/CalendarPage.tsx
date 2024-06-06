@@ -1,101 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CurrentYear from "../components/Calendar/CurrentYear";
 import MonthList from "../components/Calendar/MonthList";
 import Calendar from "../components/Calendar/Calendar";
+import TaskModal from "../components/TaskModal/TaskModal";
 import { useUser } from "../contexts/UserContext";
 
-// const fakeDb = [
-//   {
-//     id: 1,
-//     firstName: "John",
-//     lastName: "Biden",
-//     email: "john.bid@fake.com",
-//     password: "password123",
-//     tasks: {
-//       "2024": {
-//         "5": {
-//           "30": [
-//             {
-//               id: 1,
-//               text: "Провести совещание с конгрессом",
-//               completed: false,
-//             },
-//             {
-//               id: 2,
-//               text: "Выгулять собаку",
-//               completed: true,
-//             },
-//             {
-//               id: 3,
-//               text: "Поесть кукурузу",
-//               completed: true,
-//             },
-//           ],
-//         },
-//         "6": {
-//           "1": [
-//             {
-//               id: 4,
-//               text: "Покататься на велосипеде в Централ-Парк",
-//               completed: false,
-//             },
-//           ],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: 2,
-//     firstName: "Cat",
-//     lastName: "Boris",
-//     email: "cat.boris@meow.com",
-//     password: "password456",
-//     tasks: {
-//       "2024": {
-//         "3": {
-//           "21": [
-//             {
-//               id: 5,
-//               text: "Поесть корм",
-//               completed: false,
-//             },
-//             {
-//               id: 6,
-//               text: "Поспать",
-//               completed: true,
-//             },
-//           ],
-//         },
-//         "6": {
-//           "2": [
-//             {
-//               id: 7,
-//               text: "Помурчать у хозяйки на груди",
-//               completed: false,
-//             },
-//           ],
-//         },
-//       },
-//     },
-//   },
-// ];
-
 const CalendarPage: React.FC = () => {
-  const { user } = useUser();
+  const { user, login } = useUser();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTasks, setSelectedTasks] = useState<{ id: number; text: string; completed: boolean }[]>([]);
+
+  useEffect(() => {
+    if (selectedDate && user) { // Добавлена проверка на user
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const day = selectedDate.getDate();
+
+      const tasks = user.tasks[year]?.[month]?.[day] || [];
+      setSelectedTasks(tasks);
+    }
+  }, [selectedDate, user]);
 
   if (!user) {
-    return <p className="main-container__description">Пожалуйста, зарегистрируйтесь или войдите в свой профиль, чтобы увидеть задачи.</p>;
+    return (
+      <p className="main-container__description">
+        Пожалуйста, зарегистрируйтесь или войдите в свой профиль, чтобы увидеть задачи.
+      </p>
+    );
   }
 
   const handlePrevYear = () => setYear(year - 1);
   const handleNextYear = () => setYear(year + 1);
   const handleSelectMonth = (month: number) => setMonth(month);
-
-  // const tasks = fakeDb.reduce((acc, user) => {
-  //   return { ...acc, ...user.tasks };
-  // }, {});
 
   const tasks = user.tasks;
 
@@ -116,6 +55,64 @@ const CalendarPage: React.FC = () => {
 
   const tasksByMonth = getTasksByMonth(tasks, year);
 
+  const handleDayClick = (date: number) => {
+    const currentDate = new Date(year, month, date);
+    setSelectedDate(currentDate);
+    setIsModalOpen(true);
+  };
+
+  const handleAddTask = (text: string) => {
+    if (selectedDate && user) { // Добавлена проверка на user
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const day = selectedDate.getDate();
+
+      if (!user.tasks[year]) user.tasks[year] = {};
+      if (!user.tasks[year][month]) user.tasks[year][month] = {};
+      if (!user.tasks[year][month][day]) user.tasks[year][month][day] = [];
+
+      const newTask = { id: Date.now(), text, completed: false };
+      user.tasks[year][month][day].push(newTask);
+
+      setSelectedTasks((prevTasks) => [...prevTasks, newTask]);
+
+      login(user); // обновление данных пользователя
+    }
+  };
+
+  const handleToggleTask = (id: number) => {
+    if (selectedDate && user) { // Добавлена проверка на user
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const day = selectedDate.getDate();
+
+      const tasks = user.tasks[year][month][day];
+      const taskIndex = tasks.findIndex((t: any) => t.id === id);
+      if (taskIndex > -1) {
+        tasks[taskIndex].completed = !tasks[taskIndex].completed;
+
+        setSelectedTasks([...tasks]);
+
+        login(user); // обновление данных пользователя
+      }
+    }
+  };
+
+  const handleDeleteTask = (id: number) => {
+    if (selectedDate && user) { // Добавлена проверка на user
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const day = selectedDate.getDate();
+
+      const tasks = user.tasks[year][month][day];
+      user.tasks[year][month][day] = tasks.filter((t: any) => t.id !== id);
+
+      setSelectedTasks(user.tasks[year][month][day]);
+
+      login(user); // обновление данных пользователя
+    }
+  };
+
   return (
     <section className="calendar">
       <CurrentYear
@@ -132,7 +129,17 @@ const CalendarPage: React.FC = () => {
         year={year}
         month={month}
         tasks={tasks}
-        onDayClick={(date) => console.log(date)}
+        onDayClick={handleDayClick}
+      />
+      <TaskModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        date={selectedDate ? selectedDate.toLocaleDateString() : ""}
+        tasks={selectedTasks}
+        onAddTask={handleAddTask}
+        onToggleTask={handleToggleTask}
+        onDeleteTask={handleDeleteTask}
+        isHoliday={false} // Передайте правильное значение в зависимости от того, праздничный это день или нет
       />
     </section>
   );
