@@ -96,7 +96,13 @@ const TaskModal: React.FC<TaskModalProps> = ({
             error={Boolean(error)}
             helperText={error}
           />
-          <Button className="task-modal__add-task-button" variant="contained" onClick={handleAddTask}>OK</Button>
+          <Button
+            className="task-modal__add-task-button"
+            variant="contained"
+            onClick={handleAddTask}
+          >
+            OK
+          </Button>
         </div>
       </div>
     </div>
