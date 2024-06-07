@@ -28,6 +28,8 @@
     color: #999;
 }
 
-.calendar__legend-button {
+.calendar__legend-button.css-sghohy-MuiButtonBase-root-MuiButton-root {
     align-self: flex-end;
+    position: absolute;
+    bottom: 0;
 }
