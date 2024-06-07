@@ -1,6 +1,10 @@
 @use "../global/variables.scss";
 
 .legend__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     position: fixed;
     top: 50%;
     left: 50%;
@@ -10,18 +14,18 @@
     border-radius: 8px;
     padding: 20px;
     z-index: 1000;
-    min-width: calc(100% - (16px * 2));
+    min-width: 300px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-    max-width: variables.$screen-desktop;
-    min-width: calc(100% - (16px * 2));
+    max-width: 560px;
+    // min-width: calc(100% - (16px * 2));
 
-    @media (min-width: variables.$screen-tablet) {
-        min-width: calc(100% - (32px * 2));
-    }
-    @media (min-width: variables.$screen-desktop) {
-        min-width: calc(100% - (48px * 2));
-    }
+    // @media (min-width: variables.$screen-tablet) {
+    //     min-width: calc(100% - (32px * 2));
+    // }
+    // @media (min-width: variables.$screen-desktop) {
+    //     min-width: calc(100% - (48px * 2));
+    // }
 }
 
 .legend__title {
@@ -42,11 +46,13 @@
 
 .legend__item {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1.5fr 4fr;
 }
 
 .legend__text {
     color: variables.$color-black;
+    display: flex;
+    align-items: center;
 }
 
 .legend__week,
@@ -56,7 +62,7 @@
     flex-shrink: 0;
     width: 20px;
     height: 20px;
-    margin-right: 10px;
+    // margin-right: 10px;
 }
 
 .legend__day {
@@ -79,7 +85,7 @@
 
 .legend__week {
     position: relative;
-    left: 1.5rem;
+    left: 1rem;
 
     &--grey {
         background-color: variables.$color-grey;
