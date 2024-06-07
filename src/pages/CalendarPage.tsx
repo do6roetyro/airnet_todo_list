@@ -59,8 +59,8 @@ const CalendarPage: React.FC = () => {
 
   const tasksByMonth = getTasksByMonth(tasks, year);
 
-  const handleDayClick = (date: number) => {
-    const currentDate = new Date(year, month, date);
+  const handleDayClick = ({ date, month, year }: { date: number; month: number; year: number }) => {
+    const currentDate = new Date(year, month - 1, date); // month - 1 because Date month is 0-indexed
     setSelectedDate(currentDate);
     setIsModalOpen(true);
   };

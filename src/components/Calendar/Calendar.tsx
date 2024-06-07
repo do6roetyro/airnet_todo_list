@@ -8,7 +8,7 @@ interface CalendarProps {
   year: number;
   month: number;
   tasks: any;
-  onDayClick: (date: number) => void;
+  onDayClick: (date: { date: number; month: number; year: number }) => void;
   onWeekClick: (startOfWeek: Date) => void;
 }
 
@@ -19,20 +19,18 @@ const Calendar: React.FC<CalendarProps> = ({
   onDayClick,
   onWeekClick,
 }) => {
-  const [holidays, setHolidays] = useState<{
-    [month: number]: { [day: number]: boolean };
-  }>({});
+  const [holidays, setHolidays] = useState<{ [day: number]: boolean }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchHolidays = async (year: number) => {
-      const yearHolidays = await isDayOff(year);
-      setHolidays(yearHolidays);
+    const fetchHolidays = async (year: number, month: number) => {
+      const monthHolidays = await isDayOff(year, month);
+      setHolidays(monthHolidays);
     };
 
     setIsLoading(true);
-    fetchHolidays(year).finally(() => setIsLoading(false));
-  }, [year]);
+    fetchHolidays(year, month).finally(() => setIsLoading(false));
+  }, [year, month]);
 
   const hasTasksForWeek = (startOfWeek: Date): boolean => {
     const tasksForWeek = [];
@@ -85,8 +83,8 @@ const Calendar: React.FC<CalendarProps> = ({
               />
               <Week
                 days={week}
-                holidays={holidays[month] || {}}
-                onDayClick={onDayClick}
+                holidays={holidays}
+                onDayClick={(date) => onDayClick({ date: date.date, month: date.month, year: date.year })}
               />
             </div>
           );

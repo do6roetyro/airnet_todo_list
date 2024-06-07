@@ -47,6 +47,11 @@
     &--has-tasks.calendar-table__day--holiday {
         background-color: variables.$color-yellow;
     }
+
+    &--other-month {
+        opacity: 0.5;
+        color: #ccc;
+      }
 }
 
 .calendar-table__days {
