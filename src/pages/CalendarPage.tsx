@@ -4,7 +4,9 @@ import CurrentYear from "../components/Calendar/CurrentYear";
 import MonthList from "../components/Calendar/MonthList";
 import Calendar from "../components/Calendar/Calendar";
 import TaskModal from "../components/TaskModal/TaskModal";
+import LegendModal from "../components/Modal/Legend/LegendModal";
 import { useUser } from "../contexts/UserContext";
+import { Button } from "@mui/material"; // Импортируем компоненту Button
 
 const CalendarPage: React.FC = () => {
   const { user, login } = useUser();
@@ -16,6 +18,7 @@ const CalendarPage: React.FC = () => {
   const [month, setMonth] = useState(initialMonth);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLegendOpen, setIsLegendOpen] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState<
     { id: number; text: string; completed: boolean }[]
   >([]);
@@ -53,7 +56,7 @@ const CalendarPage: React.FC = () => {
 
     if (tasks[year]) {
       Object.keys(tasks[year]).forEach((month) => {
-        tasksByMonth[parseInt(month) - 1] = true; // Преобразование месяца к индексу (0-11)
+        tasksByMonth[parseInt(month) - 1] = true;
       });
     }
 
@@ -71,7 +74,7 @@ const CalendarPage: React.FC = () => {
     month: number;
     year: number;
   }) => {
-    const currentDate = new Date(year, month - 1, date); // month - 1 because Date month is 0-indexed
+    const currentDate = new Date(year, month - 1, date);
     setSelectedDate(currentDate);
     setIsModalOpen(true);
   };
@@ -116,7 +119,7 @@ const CalendarPage: React.FC = () => {
 
       setSelectedTasks((prevTasks) => [...prevTasks, newTask]);
 
-      login({ ...user, tasks: { ...user.tasks } }); // обновление данных пользователя
+      login({ ...user, tasks: { ...user.tasks } });
     }
   };
 
@@ -133,7 +136,7 @@ const CalendarPage: React.FC = () => {
 
         setSelectedTasks([...tasks]);
 
-        login({ ...user, tasks: { ...user.tasks } }); // обновление данных пользователя
+        login({ ...user, tasks: { ...user.tasks } });
       }
     }
   };
@@ -149,7 +152,7 @@ const CalendarPage: React.FC = () => {
 
       setSelectedTasks(user.tasks[year][month][day]);
 
-      login({ ...user, tasks: { ...user.tasks } }); // обновление данных пользователя
+      login({ ...user, tasks: { ...user.tasks } });
     }
   };
 
@@ -172,6 +175,9 @@ const CalendarPage: React.FC = () => {
     }
     setIsModalOpen(false);
   };
+
+  const handleLegendOpen = () => setIsLegendOpen(true);
+  const handleLegendClose = () => setIsLegendOpen(false);
 
   return (
     <section className="calendar">
@@ -200,8 +206,10 @@ const CalendarPage: React.FC = () => {
         onAddTask={handleAddTask}
         onToggleTask={handleToggleTask}
         onDeleteTask={handleDeleteTask}
-        isHoliday={false} // Передайте правильное значение в зависимости от того, праздничный это день или нет
+        isHoliday={false}
       />
+      <Button onClick={handleLegendOpen} className="legend-button">Легенда</Button>
+      <LegendModal isOpen={isLegendOpen} onClose={handleLegendClose} />
     </section>
   );
 };
