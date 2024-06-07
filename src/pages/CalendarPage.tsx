@@ -181,6 +181,7 @@ const CalendarPage: React.FC = () => {
 
   return (
     <section className="calendar">
+      <h2 className="visually-hidden">Календарь</h2>
       <CurrentYear
         year={year}
         onPrev={handlePrevYear}

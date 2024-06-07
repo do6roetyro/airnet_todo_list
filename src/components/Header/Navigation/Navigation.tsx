@@ -16,23 +16,25 @@ const Navigation: React.FC = () => {
             <NavLink title="Логин" link="login" />
           </>
         ) : (
-          <Button
-            className="main-nav__logout-button"
-            onClick={logout}
-            variant="text"
-            color="primary"
-            size="medium"
-            sx={{ color: "white" }}
-          >
-            <span className="visually-hidden">Выйти из профиля</span>
-            <img
-              src={log_out as unknown as string}
-              alt="Выход"
-              className="logout-button__icon"
-              width={32}
-              height={32}
-            />
-          </Button>
+          <li className="main-nav__item">
+            <Button
+              className="main-nav__logout-button"
+              onClick={logout}
+              variant="text"
+              color="primary"
+              size="medium"
+              sx={{ color: "white" }}
+            >
+              <span className="visually-hidden">Выйти из профиля</span>
+              <img
+                src={log_out as unknown as string}
+                alt="Выход"
+                className="logout-button__icon"
+                width={32}
+                height={32}
+              />
+            </Button>
+          </li>
         )}
       </ul>
     </nav>
