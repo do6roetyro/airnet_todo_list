@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 const WeekTasksPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { startOfWeek, tasks } = location.state || {};
+  const { startOfWeek, tasks, year, month } = location.state || {};
 
   if (!startOfWeek || !tasks) {
     return <p>Нет данных для отображения.</p>;
@@ -47,7 +47,7 @@ const WeekTasksPage: React.FC = () => {
           className="week-tasks-page__return-button"
           variant="contained"
           color="primary"
-          onClick={() => navigate("/calendar")}
+          onClick={() => navigate("/calendar", { state: { year, month } })}
         >
           Вернуться в календарь
         </Button>

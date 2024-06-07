@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CurrentYear from "../components/Calendar/CurrentYear";
 import MonthList from "../components/Calendar/MonthList";
 import Calendar from "../components/Calendar/Calendar";
@@ -9,8 +9,11 @@ import { useUser } from "../contexts/UserContext";
 const CalendarPage: React.FC = () => {
   const { user, login } = useUser();
   const navigate = useNavigate();
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(new Date().getMonth());
+  const location = useLocation();
+  const initialYear = location.state?.year || new Date().getFullYear();
+  const initialMonth = location.state?.month || new Date().getMonth();
+  const [year, setYear] = useState(initialYear);
+  const [month, setMonth] = useState(initialMonth);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState<
@@ -59,7 +62,15 @@ const CalendarPage: React.FC = () => {
 
   const tasksByMonth = getTasksByMonth(tasks, year);
 
-  const handleDayClick = ({ date, month, year }: { date: number; month: number; year: number }) => {
+  const handleDayClick = ({
+    date,
+    month,
+    year,
+  }: {
+    date: number;
+    month: number;
+    year: number;
+  }) => {
     const currentDate = new Date(year, month - 1, date); // month - 1 because Date month is 0-indexed
     setSelectedDate(currentDate);
     setIsModalOpen(true);
@@ -80,7 +91,14 @@ const CalendarPage: React.FC = () => {
         });
       }
     }
-    navigate("/week-tasks", { state: { startOfWeek: startOfWeek.toISOString(), tasks: tasksForWeek } });
+    navigate("/week-tasks", {
+      state: {
+        startOfWeek: startOfWeek.toISOString(),
+        tasks: tasksForWeek,
+        year,
+        month,
+      },
+    });
   };
 
   const handleAddTask = (text: string) => {
