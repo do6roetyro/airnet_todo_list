@@ -30,6 +30,7 @@
 
 .week-tasks-page__list {
     color: variables.$color-black;
+    padding-bottom: 2rem;
 }
 
 .week-tasks-page__item {
@@ -41,7 +42,9 @@
     }
 }
 
-.week-tasks-page__return-button {
+.week-tasks-page__return-button.css-sghohy-MuiButtonBase-root-MuiButton-root {
     max-width: 256px;
     align-self: center;
+    position: absolute;
+    bottom: 0;
 }

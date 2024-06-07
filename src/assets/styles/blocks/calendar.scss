@@ -16,6 +16,7 @@
     grid-template-columns: repeat(8, 1fr);
     gap: 5px;
     position: relative;
+    padding-bottom: 1rem;
 }
 
 .calendar__loading {
@@ -25,4 +26,8 @@
     padding: 20px;
     font-size: 1.5rem;
     color: #999;
+}
+
+.calendar__legend-button {
+    align-self: flex-end;
 }

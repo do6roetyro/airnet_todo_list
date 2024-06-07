@@ -208,7 +208,7 @@ const CalendarPage: React.FC = () => {
         onDeleteTask={handleDeleteTask}
         isHoliday={false}
       />
-      <Button onClick={handleLegendOpen} className="legend-button">Легенда</Button>
+      <Button onClick={handleLegendOpen} className="calendar__legend-button"  variant="contained">Легенда</Button>
       <LegendModal isOpen={isLegendOpen} onClose={handleLegendClose} />
     </section>
   );

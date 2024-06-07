@@ -10,18 +10,10 @@
     border-radius: 8px;
     padding: 20px;
     z-index: 1000;
-    min-width: calc(100% - (16px * 2));
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
     max-width: variables.$screen-desktop;
-    min-width: calc(100% - (16px * 2));
-
-    @media (min-width: variables.$screen-tablet) {
-        min-width: calc(100% - (32px * 2));
-    }
-    @media (min-width: variables.$screen-desktop) {
-        min-width: calc(100% - (48px * 2));
-    }
+    width: clamp(325px, 50vw, 900px);
 }
 
 .task-modal__header {
@@ -59,11 +51,10 @@
     &--completed {
         background: variables.$color-green-salad;
     }
+}
 
-    button {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
+.task-modal__delete-button {
+    margin-left: 10px;
 }
 
 .task-modal__add-task {
