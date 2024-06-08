@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LoginForm from '../components/Login/LoginForm';
 import { UserProvider } from '../contexts/UserContext';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 describe('LoginForm', () => {
   it('рендер формы логина', () => {
