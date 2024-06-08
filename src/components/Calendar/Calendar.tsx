@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Week from "./Week";
 import { DAYS_OF_WEEK } from "../../utils/variables";
 import { generateCalendar } from "../../utils/generateCalendar";
-import { isDayOff } from "../../services/isDayOffService";
+import { fetchHolidays, hasTasksForWeek, startOfWeekOffset } from "../../utils/calendarUtils";
 
 interface CalendarProps {
   year: number;
@@ -23,35 +23,8 @@ const Calendar: React.FC<CalendarProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchHolidays = async (year: number, month: number) => {
-      const monthHolidays = await isDayOff(year, month);
-      setHolidays(monthHolidays);
-    };
-
-    setIsLoading(true);
-    fetchHolidays(year, month).finally(() => setIsLoading(false));
+    fetchHolidays(year, month, setHolidays, setIsLoading);
   }, [year, month]);
-
-  const hasTasksForWeek = (startOfWeek: Date): boolean => {
-    const tasksForWeek = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + i);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      if (tasks[year]?.[month]?.[day]?.length > 0) {
-        tasksForWeek.push(tasks[year][month][day]);
-      }
-    }
-    return tasksForWeek.length > 0;
-  };
-
-  const startOfWeekOffset = (startOfWeek: Date): Date => {
-    const date = new Date(startOfWeek);
-    date.setDate(date.getDate() - ((date.getDay() + 6) % 7)); // Смещение к понедельнику
-    return date;
-  };
 
   return (
     <div className="calendar__table calendar-table">
@@ -73,12 +46,12 @@ const Calendar: React.FC<CalendarProps> = ({
             <div className="calendar-table__week" key={index}>
               <div
                 className={`calendar-table__week-point ${
-                  hasTasksForWeek(startOfWeek)
+                  hasTasksForWeek(startOfWeek, tasks)
                     ? "calendar-table__week-point--has-tasks"
                     : "calendar-table__week-point--no-tasks"
                 }`}
                 onClick={() =>
-                  hasTasksForWeek(startOfWeek) && onWeekClick(startOfWeek)
+                  hasTasksForWeek(startOfWeek, tasks) && onWeekClick(startOfWeek)
                 }
               />
               <Week

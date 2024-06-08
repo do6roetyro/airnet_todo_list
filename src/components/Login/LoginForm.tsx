@@ -5,7 +5,7 @@ import * as yup from "yup";
 import ModalSuccess from "../Modal/ModalSuccess";
 import { useUser, User } from "../../contexts/UserContext";
 import { useNavigate } from "react-router";
-import data from '../../data.json';
+import data from "../../data.json";
 import FormikField from "../../utils/FormikField";
 
 const validationSchema = yup.object({
@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsLoginSuccessModalOpen(false);
-    navigate('/calendar');
+    navigate("/calendar");
   };
 
   const parseTasks = (tasks: any): User["tasks"] => {
@@ -51,7 +51,8 @@ const LoginForm: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
           const user = data.find(
-            (u: any) => u.email === values.email && u.password === values.password
+            (u: any) =>
+              u.email === values.email && u.password === values.password
           );
 
           if (user) {

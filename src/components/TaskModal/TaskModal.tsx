@@ -50,19 +50,6 @@ const TaskModal: React.FC<TaskModalProps> = ({
     setError("");
   }, [isOpen]);
 
-  // const style = {
-  //   position: "absolute" as "absolute",
-  //   top: "50%",
-  //   left: "50%",
-  //   transform: "translate(-50%, -50%)",
-  //   width: 400,
-  //   bgcolor: "background.paper",
-  //   border: "2px solid #000",
-  //   boxShadow: 24,
-  //   p: 4,
-  //   borderRadius: "8px",
-  // };
-
   return (
     <Modal
       open={isOpen}
@@ -115,14 +102,14 @@ const TaskModal: React.FC<TaskModalProps> = ({
                     />
                     <span className="task-modal__text">{task.text}</span>
                     <Button onClick={() => onDeleteTask(task.id)}>
-                    <span className="visually-hidden">Удалить задачу</span>
-              <img
-                src={trash as unknown as string}
-                alt="Корзина"
-                className="task-modal__delete-button"
-                width={32}
-                height={32}
-              />
+                      <span className="visually-hidden">Удалить задачу</span>
+                      <img
+                        src={trash as unknown as string}
+                        alt="Корзина"
+                        className="task-modal__delete-button"
+                        width={32}
+                        height={32}
+                      />
                     </Button>
                   </li>
                 ))}
