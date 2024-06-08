@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button} from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import ModalSuccess from "../Modal/ModalSuccess";
+import FormikField from "../../utils/FormikField";
 
 const validationSchema = yup.object({
   firstName: yup.string().required("Обязательное поле"),
@@ -45,59 +46,34 @@ const RegisterForm: React.FC = () => {
         {({ errors, touched }) => (
           <Form className="login__form form" action="/submit" method="post">
             <Field
-              as={TextField}
-              className="form__input"
-              id="firstName"
+              component={FormikField}
               name="firstName"
               label="Имя"
-              variant="outlined"
               type="text"
-              error={touched.firstName && Boolean(errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
             />
             <Field
-              as={TextField}
-              className="form__input"
-              id="lastName"
+              component={FormikField}
               name="lastName"
               label="Фамилия"
-              variant="outlined"
               type="text"
-              error={touched.lastName && Boolean(errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
             />
             <Field
-              as={TextField}
-              className="form__input"
-              id="email"
+              component={FormikField}
               name="email"
               label="Почта"
-              variant="outlined"
               type="email"
-              error={touched.email && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
             />
             <Field
-              as={TextField}
-              className="form__input"
-              id="password"
+              component={FormikField}
               name="password"
               label="Пароль"
-              variant="outlined"
               type="password"
-              error={touched.password && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
             />
             <Field
-              as={TextField}
-              className="form__input"
-              id="confirmPassword"
+              component={FormikField}
               name="confirmPassword"
               label="Повторите пароль"
-              variant="outlined"
               type="password"
-              error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-              helperText={touched.confirmPassword && errors.confirmPassword}
             />
             <Button
               className="form__button button"

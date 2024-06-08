@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import ModalSuccess from "../Modal/ModalSuccess";
 import { useUser, User } from "../../contexts/UserContext";
 import { useNavigate } from "react-router";
 import data from '../../data.json';
+import FormikField from "../../utils/FormikField";
 
 const validationSchema = yup.object({
   email: yup
@@ -70,26 +71,16 @@ const LoginForm: React.FC = () => {
         {({ errors, touched }) => (
           <Form className="login__form form" action="/submit" method="post">
             <Field
-              as={TextField}
-              className="form__input"
-              id="email"
+              component={FormikField}
               name="email"
               label="Почта"
-              variant="outlined"
               type="email"
-              error={touched.email && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
             />
             <Field
-              as={TextField}
-              className="form__input"
-              id="password"
+              component={FormikField}
               name="password"
               label="Пароль"
-              variant="outlined"
               type="password"
-              error={touched.password && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
             />
             <Button
               className="form__button button"

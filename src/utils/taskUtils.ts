@@ -5,7 +5,7 @@ interface Task {
   }
   
   interface User {
-    id: string; // Изменение типа id на string
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
