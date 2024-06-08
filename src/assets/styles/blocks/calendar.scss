@@ -1,3 +1,5 @@
+@use "../global/variables.scss";
+
 .calendar {
     display: flex;
     flex-direction: column;
@@ -8,7 +10,11 @@
 .calendar__months {
     display: flex;
     gap: 5px;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
+
+    @media (min-width: variables.$screen-tablet) {
+        padding-bottom: 3rem;
+    }
 }
 
 .calendar__table {
@@ -16,7 +22,7 @@
     grid-template-columns: repeat(8, 1fr);
     gap: 5px;
     position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: 3rem;
 }
 
 .calendar__loading {

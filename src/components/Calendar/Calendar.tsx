@@ -48,18 +48,17 @@ const Calendar: React.FC<CalendarProps> = ({
           const startOfWeek = startOfWeekOffset(
             new Date(year, month, week[0].date)
           );
+          const hasTasks = hasTasksForWeek(startOfWeek, tasks);
           return (
             <div className="calendar-table__week" key={index}>
               <div
                 className={`calendar-table__week-point ${
-                  hasTasksForWeek(startOfWeek, tasks)
+                  hasTasks
                     ? "calendar-table__week-point--has-tasks"
                     : "calendar-table__week-point--no-tasks"
                 }`}
-                onClick={() =>
-                  hasTasksForWeek(startOfWeek, tasks) &&
-                  onWeekClick(startOfWeek)
-                }
+                onClick={() => hasTasks && onWeekClick(startOfWeek)}
+                tabIndex={hasTasks ? 0 : -1}
               />
               <Week
                 days={week}

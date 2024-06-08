@@ -1,5 +1,8 @@
 @use "../global/variables.scss";
 
+.calendar-table {
+    min-height: 320px;
+}
 
 .calendar-table__header {
     display: contents;
@@ -17,7 +20,8 @@
 .calendar-table__week {
     display: contents;
     position: relative;
-  }
+    cursor: pointer;
+}
 
 .calendar-table__day {
     display: flex;
@@ -31,14 +35,24 @@
     cursor: pointer;
     font-size: 1rem;
 
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px variables.$color-blue-light;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: variables.$color-white-grey;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px variables.$color-blue-light;
+        }
+
+        &:active {
+            opacity: 0.5;
+        }
     }
 
     &--holiday {
-        background-color: variables.$color-pink-medium-light; 
-        color: variables.$color-red; 
+        background-color: variables.$color-pink-medium-light;
+        color: variables.$color-red;
     }
     &--has-tasks {
         background-color: variables.$color-yellow;
@@ -51,14 +65,14 @@
     &--other-month {
         opacity: 0.5;
         color: #ccc;
-      }
+    }
 }
 
 .calendar-table__days {
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
-  }
+}
 
 .calendar-table__day.empty {
     background-color: transparent;
@@ -66,9 +80,9 @@
     cursor: default;
 }
 
-.calendar-table__week-point{
+.calendar-table__week-point {
     position: relative;
-    top: 3.5rem;
+    top: 3.7rem;
     width: 1rem;
     height: 1rem;
     border-radius: 100%;
@@ -76,6 +90,20 @@
 
     &--has-tasks {
         background-color: variables.$color-yellow;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                opacity: 0.7;
+            }
+
+            &:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 3px variables.$color-blue-light;
+            }
+
+            &:active {
+                opacity: 0.5;
+            }
+        }
     }
     &--no-tasks {
         background-color: variables.$color-grey;
