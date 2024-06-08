@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '../test_utils/test-utils';
-import CurrentYear from '../components/Calendar/CurrentYear';
+import CurrentYear from '../components/Calendar/CurrentYear/CurrentYear';
 
 describe('CurrentYear', () => {
   it('рендер текущего года и переключение по стрелкам', () => {

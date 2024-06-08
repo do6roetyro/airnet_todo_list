@@ -14,9 +14,18 @@
     border: 2px solid variables.$color-blue;
     border-radius: 100%;
 
+    &--next {
+        .current-year__logo {
+            transform: rotate(180deg);
+        }
+    }
+
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            color: variables.$color-white;
+            .current-year__logo {
+                filter: invert(100%) brightness(200%);
+            }
+
             background-color: variables.$color-blue;
         }
 

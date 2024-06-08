@@ -1,4 +1,6 @@
 import React from "react";
+import ArrowButton from "./ArrowButton";
+import arrow from "../../../assets/images/arrow.svg";
 
 interface CurrentYearProps {
   year: number;
@@ -9,9 +11,17 @@ interface CurrentYearProps {
 const CurrentYear: React.FC<CurrentYearProps> = ({ year, onPrev, onNext }) => {
   return (
     <div className="calendar__current-year current-year">
-      <button className="current-year__button current-year__button--prev" onClick={onPrev}>⟵</button>
+      <ArrowButton
+        direction="prev"
+        onClick={onPrev}
+        logo={arrow as any}
+      />
       <span className="current-year__date">{year}</span>
-      <button className="current-year__button current-year__button--next" onClick={onNext}>⟶</button>
+      <ArrowButton
+        direction="next"
+        onClick={onNext}
+        logo={arrow as any}
+      />
     </div>
   );
 };

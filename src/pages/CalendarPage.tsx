@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import CurrentYear from "../components/Calendar/CurrentYear";
+import CurrentYear from "../components/Calendar/CurrentYear/CurrentYear";
 import MonthList from "../components/Calendar/MonthList";
 import Calendar from "../components/Calendar/Calendar";
 import TaskModal from "../components/TaskModal/TaskModal";
@@ -114,7 +114,7 @@ const CalendarPage: React.FC = () => {
         onDeleteTask={(id) => handleDeleteTask(id, selectedDate, user, setSelectedTasks, login)}
         isHoliday={false}
       />
-      <Button onClick={() => setIsLegendOpen(true)} className="calendar__legend-button" variant="contained">
+      <Button onClick={() => setIsLegendOpen(true)} className="calendar__legend-button legend-button" variant="contained">
         Легенда
       </Button>
       <LegendModal isOpen={isLegendOpen} onClose={() => setIsLegendOpen(false)} />
