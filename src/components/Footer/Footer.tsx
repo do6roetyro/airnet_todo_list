@@ -1,34 +1,31 @@
 import React from "react";
-import logo from "../../assets/images/git.svg";
+import git from "../../assets/images/git.svg";
+import tg from "../../assets/images/tg.svg";
+import SocialLink from "./SocialLink";
 
 interface FooterProps {
-  url: string;
-  link_name: string;
   copyright: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ url, link_name, copyright }) => {
+const Footer: React.FC<FooterProps> = ({ copyright }) => {
   return (
     <footer className="main-footer">
       <div className="main-footer__wrapper wrapper">
-        <a
-          className="main-footer__link main-footer__link--github link"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span className="visually-hidden">{link_name}</span>
-          <img
-            src={logo as unknown as string}
-            alt={link_name}
-            className="social__logo"
-            width={50}
-            height={50}
-          />
-        </a>
+        <div className="main-footer__social social">
+          <SocialLink
+            url="https://github.com/do6roetyro"
+            socialName="github"
+            logo={git as unknown as string}
+          ></SocialLink>
+          <SocialLink
+            url="https://t.me/Do6poeytpo"
+            socialName="telegram"
+            logo={tg as unknown as string}
+          ></SocialLink>
+        </div>
         <p className="main-footer__copyright copyright">
-            <span>{copyright}</span>
-           <span>Разработано dobroeytro</span> 
+          <span>{copyright}</span>
+          <span>Разработано dobroeytro</span>
         </p>
       </div>
     </footer>

@@ -44,11 +44,7 @@ const App: React.FC = () => {
           </Suspense>
         </main>
       </div>
-      <Footer
-        url="https://github.com/do6roetyro"
-        link_name="GitHub"
-        copyright="© ToDoList"
-      />
+      <Footer copyright="© ToDoList" />
     </>
   );
 };
