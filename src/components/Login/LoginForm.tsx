@@ -3,7 +3,7 @@ import { Button, TextField } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import ModalSuccess from "../Modal/ModalSuccess";
-import { useUser } from "../../contexts/UserContext";
+import { useUser, User } from "../../contexts/UserContext";
 import { useNavigate } from "react-router";
 import data from '../../data.json';
 
@@ -25,6 +25,21 @@ const LoginForm: React.FC = () => {
     navigate('/calendar');
   };
 
+  const parseTasks = (tasks: any): User["tasks"] => {
+    const parsedTasks: User["tasks"] = {};
+
+    Object.keys(tasks).forEach((year) => {
+      const yearNum = parseInt(year);
+      parsedTasks[yearNum] = {};
+      Object.keys(tasks[year]).forEach((month) => {
+        const monthNum = parseInt(month);
+        parsedTasks[yearNum][monthNum] = tasks[year][month];
+      });
+    });
+
+    return parsedTasks;
+  };
+
   return (
     <>
       <Formik
@@ -39,7 +54,11 @@ const LoginForm: React.FC = () => {
           );
 
           if (user) {
-            login(user);
+            login({
+              ...user,
+              id: user.id.toString(), // Преобразование id в строку
+              tasks: parseTasks(user.tasks), // Парсинг задач
+            });
             setIsLoginSuccessModalOpen(true);
           } else {
             alert("Неправильный email или пароль");

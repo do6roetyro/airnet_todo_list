@@ -1,11 +1,23 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 
-interface User {
+interface Task {
   id: number;
+  text: string;
+  completed: boolean;
+}
+
+export interface User {
+  id: string; // Изменение типа id на string
   firstName: string;
   lastName: string;
   email: string;
-  tasks: any;
+  tasks: {
+    [year: number]: {
+      [month: number]: {
+        [day: number]: Task[];
+      };
+    };
+  };
 }
 
 interface UserContextType {
