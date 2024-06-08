@@ -10,8 +10,9 @@ interface DayProps {
 
 const Day: React.FC<DayProps> = ({ date, hasTasks, isHoliday, currentMonth, onClick }) => {
   if (date === 0) {
-    return <div className="calendar-table__day empty"></div>; // Пустая ячейка для предыдущих и следующих месяцев
+    return <div className="calendar-table__day empty"></div>; 
   }
+
   return (
     <button
       className={`calendar-table__day ${

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -16,15 +16,21 @@ interface ModalSuccessProps {
 }
 
 const ModalSuccess: React.FC<ModalSuccessProps> = ({ isOpen, onClose, title, info }) => {
+  useEffect(() => {
+    if (isOpen) {
+      console.log("ModalSuccess is open:", title, info);
+    }
+  }, [isOpen, title, info]);
+
   return (
     <Dialog
       className="form__modal-success modal-success"
       open={isOpen}
       onClose={onClose}
     >
-      <DialogTitle className="modal-success__title title">{title}</DialogTitle>
+      <DialogTitle className="modal-success__title title" data-testid="modal-title">{title}</DialogTitle>
       <DialogContent className="modal-success__container">
-        <DialogContentText className="modal-success__description description">
+        <DialogContentText className="modal-success__description description" data-testid="modal-info">
           {info}
         </DialogContentText>
       </DialogContent>

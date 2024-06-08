@@ -20,13 +20,13 @@ export interface User {
   };
 }
 
-interface UserContextType {
+export interface UserContextType {
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 interface UserProviderProps {
   children: ReactNode;

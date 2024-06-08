@@ -1,0 +1,81 @@
+import React from 'react';
+import { render, screen, fireEvent } from '../test_utils/test-utils';
+import Calendar from '../components/Calendar/Calendar';
+import { mockUser, TasksByYear } from '../test_utils/mockUser';
+
+// Мокируем fetchHolidays
+jest.mock('../utils/calendarUtils', () => ({
+  ...jest.requireActual('../utils/calendarUtils'),
+  fetchHolidays: jest.fn((year, month, setHolidays, setIsLoading) => {
+    setHolidays({});
+    setIsLoading(false);
+  }),
+}));
+
+describe('Calendar', () => {
+  const onDayClick = jest.fn();
+  const onWeekClick = jest.fn();
+
+  it('рендер календаря и проверка наличия задач', () => {
+    const tasks = mockUser.tasks;
+
+    render(<Calendar year={2024} month={5} tasks={tasks} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
+    console.log("Rendered Calendar with user context");
+    console.log(tasks);
+
+    // Проверка, что задачи переданы и отрендерены корректно
+    const dayWithTasks = screen.getAllByText('5').find(day => day.closest('.calendar-table__day--has-tasks'));
+    expect(dayWithTasks).toBeDefined();
+    expect(dayWithTasks).toBeInTheDocument();
+  });
+
+  it('проверка добавления и удаления классов при изменении задач', () => {
+    const tasks = mockUser.tasks;
+
+    render(<Calendar year={2024} month={5} tasks={tasks} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
+
+    // Проверка наличия дня без задач
+    const dayWithoutTasks = screen.getAllByText('6').find(day => day.closest('.calendar-table__day'));
+    expect(dayWithoutTasks).toBeDefined();
+    expect(dayWithoutTasks).not.toHaveClass('calendar-table__day--has-tasks');
+
+    if (dayWithoutTasks) {
+      fireEvent.click(dayWithoutTasks);
+    }
+    expect(onDayClick).toHaveBeenCalledWith({ date: 6, month: 5, year: 2024 });
+
+    // Добавление задачи
+    const updatedTasks: TasksByYear = {
+      ...tasks,
+      2024: {
+        ...tasks[2024],
+        5: {
+          ...tasks[2024][5],
+          6: [{ id: 1, text: 'Task 1', completed: false }],
+        },
+      },
+    };
+
+    render(<Calendar year={2024} month={5} tasks={updatedTasks} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
+    const updatedDayWithTasks = screen.getAllByText('6').find(day => day.closest('.calendar-table__day--has-tasks'));
+    expect(updatedDayWithTasks).toBeDefined();
+    expect(updatedDayWithTasks).toHaveClass('calendar-table__day--has-tasks');
+
+    // Удаление задачи
+    const tasksAfterDelete: TasksByYear = {
+      ...tasks,
+      2024: {
+        ...tasks[2024],
+        5: {
+          ...tasks[2024][5],
+          6: [],
+        },
+      },
+    };
+
+    render(<Calendar year={2024} month={5} tasks={tasksAfterDelete} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
+    const updatedDayWithoutTasks = screen.getAllByText('6').find(day => day.closest('.calendar-table__day'));
+    expect(updatedDayWithoutTasks).toBeDefined();
+    expect(updatedDayWithoutTasks).not.toHaveClass('calendar-table__day--has-tasks');
+  });
+});
