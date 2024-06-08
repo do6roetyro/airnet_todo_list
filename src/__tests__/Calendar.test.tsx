@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '../test_utils/test-utils';
+import { render, screen, fireEvent, waitFor } from '../test_utils/test-utils';
 import Calendar from '../components/Calendar/Calendar';
 import { mockUser, TasksByYear } from '../test_utils/mockUser';
 
@@ -16,25 +16,33 @@ describe('Calendar', () => {
   const onDayClick = jest.fn();
   const onWeekClick = jest.fn();
 
-  it('рендер календаря и проверка наличия задач', () => {
+  it('рендер календаря и проверка наличия задач', async () => {
     const tasks = mockUser.tasks;
 
     render(<Calendar year={2024} month={5} tasks={tasks} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
     console.log("Rendered Calendar with user context");
     console.log(tasks);
 
-    // Проверка, что задачи переданы и отрендерены корректно
+    // Ожидание завершения рендеринга и проверка наличия дня с задачами
+    await waitFor(() => {
+      expect(screen.getByText('5')).toBeInTheDocument();
+    });
+
     const dayWithTasks = screen.getAllByText('5').find(day => day.closest('.calendar-table__day--has-tasks'));
     expect(dayWithTasks).toBeDefined();
-    expect(dayWithTasks).toBeInTheDocument();
+    expect(dayWithTasks).toHaveClass('calendar-table__day--has-tasks');
   });
 
-  it('проверка добавления и удаления классов при изменении задач', () => {
+  it('проверка добавления и удаления классов при изменении задач', async () => {
     const tasks = mockUser.tasks;
 
     render(<Calendar year={2024} month={5} tasks={tasks} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
 
-    // Проверка наличия дня без задач
+    // Ожидание завершения рендеринга и проверка наличия дня без задач
+    await waitFor(() => {
+      expect(screen.getByText('6')).toBeInTheDocument();
+    });
+
     const dayWithoutTasks = screen.getAllByText('6').find(day => day.closest('.calendar-table__day'));
     expect(dayWithoutTasks).toBeDefined();
     expect(dayWithoutTasks).not.toHaveClass('calendar-table__day--has-tasks');
@@ -57,6 +65,11 @@ describe('Calendar', () => {
     };
 
     render(<Calendar year={2024} month={5} tasks={updatedTasks} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('6')).toBeInTheDocument();
+    });
+
     const updatedDayWithTasks = screen.getAllByText('6').find(day => day.closest('.calendar-table__day--has-tasks'));
     expect(updatedDayWithTasks).toBeDefined();
     expect(updatedDayWithTasks).toHaveClass('calendar-table__day--has-tasks');
@@ -74,6 +87,11 @@ describe('Calendar', () => {
     };
 
     render(<Calendar year={2024} month={5} tasks={tasksAfterDelete} onDayClick={onDayClick} onWeekClick={onWeekClick} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('6')).toBeInTheDocument();
+    });
+
     const updatedDayWithoutTasks = screen.getAllByText('6').find(day => day.closest('.calendar-table__day'));
     expect(updatedDayWithoutTasks).toBeDefined();
     expect(updatedDayWithoutTasks).not.toHaveClass('calendar-table__day--has-tasks');
