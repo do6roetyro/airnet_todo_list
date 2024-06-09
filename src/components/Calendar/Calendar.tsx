@@ -32,48 +32,50 @@ const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <div className="calendar__table calendar-table">
-      <div className="calendar-table__header">
-        {DAYS_OF_WEEK.map((day, index) => (
-          <div key={index} className="calendar-table__header-day">
-            {day}
-          </div>
-        ))}
-      </div>
       {isLoading ? (
         <div className="calendar__loading">
           Подождите - приложение готовится к работе
         </div>
       ) : (
-        generateCalendar(year, month, tasks).map((week, index) => {
-          const startOfWeek = startOfWeekOffset(
-            new Date(year, month, week[0].date)
-          );
-          const hasTasks = hasTasksForWeek(startOfWeek, tasks);
-          return (
-            <div className="calendar-table__week" key={index}>
-              <div
-                className={`calendar-table__week-point ${
-                  hasTasks
-                    ? "calendar-table__week-point--has-tasks"
-                    : "calendar-table__week-point--no-tasks"
-                }`}
-                onClick={() => hasTasks && onWeekClick(startOfWeek)}
-                tabIndex={hasTasks ? 0 : -1}
-              />
-              <Week
-                days={week}
-                holidays={holidays}
-                onDayClick={(date) =>
-                  onDayClick({
-                    date: date.date,
-                    month: date.month,
-                    year: date.year,
-                  })
-                }
-              />
-            </div>
-          );
-        })
+        <>
+          <div className="calendar-table__header">
+            {DAYS_OF_WEEK.map((day, index) => (
+              <div key={index} className="calendar-table__header-day">
+                {day}
+              </div>
+            ))}
+          </div>
+          {generateCalendar(year, month, tasks).map((week, index) => {
+            const startOfWeek = startOfWeekOffset(
+              new Date(year, month, week[0].date)
+            );
+            const hasTasks = hasTasksForWeek(startOfWeek, tasks);
+            return (
+              <div className="calendar-table__week" key={index}>
+                <div
+                  className={`calendar-table__week-point ${
+                    hasTasks
+                      ? "calendar-table__week-point--has-tasks"
+                      : "calendar-table__week-point--no-tasks"
+                  }`}
+                  onClick={() => hasTasks && onWeekClick(startOfWeek)}
+                  tabIndex={hasTasks ? 0 : -1}
+                />
+                <Week
+                  days={week}
+                  holidays={holidays}
+                  onDayClick={(date) =>
+                    onDayClick({
+                      date: date.date,
+                      month: date.month,
+                      year: date.year,
+                    })
+                  }
+                />
+              </div>
+            );
+          })}
+        </>
       )}
     </div>
   );
